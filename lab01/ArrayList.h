@@ -59,18 +59,18 @@ Status ClearList(SqList *L);
  */
 
 
-Status ListEmpty(SqList *L);
+Status IsListEmpty(SqList L);
 /*
- * Function Name: ListEmpty
- * Parameter: SqList *L
+ * Function Name: IsListEmpty
+ * Parameter: SqList L
  * Return: Status(int) 
  * Use: to know the list is empty or not
  */
 
-int ListLength(SqList *L);
+int ListLength(SqList L);
 /*
  * Function Name: ListLength
- * Parameter: SqList *L
+ * Parameter: SqList L
  * Return: length of the list(int)
  * Use: get the length of the list
  */
@@ -94,16 +94,49 @@ int LocateElem(SqList *L, ElementType e);
  */
 
 
-Status PriorElem(SqList *L, ElementType cur_e, ElementType pre_e);
+Status PriorElem(SqList *L, ElementType cur_e, ElementType *pre_e);
 /*
- * 
+ * Function Name: PriorElem
+ * Parameter: SqList *L, ElementType cur_e, ElementType *pre_e
+ * Return: Status(int)
+ * Use: get the prior element of cur_e
  */
 
 
-Status NextElem(SqList *L, ElementType cur_e, ElementType next_e);
+Status NextElem(SqList *L, ElementType cur_e, ElementType *next_e);
+/*
+ * Function Name: NextElem
+ * Parameter: SqList *L, ElementType cur_e, ElementType *next_e
+ * Return: Status(int)
+ * Use: get the next element of next_e
+ */
+
+
 Status ListInsert(SqList *L, int index, ElementType e);
-Status ListDelete(SqList *L, int index, ElementType e);
+/* 
+ * Function Name: ListInsert
+ * Parameter: SqList *l, int index, ElementType e
+ * Return: Status(int)
+ * Use: insert e in front of data[index]
+ */
+
+
+Status ListDelete(SqList *L, int index, ElementType *e);
+/* 
+ * Function Name: ListDelete
+ * Parameter: SqList *L, int index, ElementType *e
+ * Return: Status(int)
+ * Use: delete data[index] and return its value from e
+ */
+
+
 Status ListTraverse(SqList *L);
+/*
+ * Function Name: ListTraverse
+ * Parameter: SqList *L
+ * return: Status(int)
+ * Use: traverse L
+ */
 
 
 #endif
