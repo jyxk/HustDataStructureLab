@@ -24,12 +24,21 @@
 typedef int ElementType;
 typedef int Status;
 
-typedef struct {
+typedef struct SqList {
+    int ListID;
     ElementType *data;
     int length;
     int listsize;
+    
+    struct SqList *next;
 } SqList;
 
+typedef struct ListSet {
+    int num;
+    struct SqList *head;
+} ListSet;
+
+typedef struct ListSet *PtrToSet;
 
 //the function prototype
 Status InitaList(SqList *L);
