@@ -8,7 +8,7 @@ void PrintMenu(void) {
      * Use: print the menu 
      */
 
-    printf("+-----------------------------------------------------+\n");
+    printf("\n+-----------------------------------------------------+\n");
     printf("|                jyxk's SqList demo                   |\n");
     printf("|                                                     |\n");
     printf("|                   Function List:                    |\n");
@@ -114,7 +114,7 @@ int main(void) {
                 printf(" * Return: Status(int)\n");
                 printf(" * Use: initial the linear list\n"); 
                 printf(" */\n");
-                printf("\n please enter the id of the list");
+                printf("\n please enter the id of the list\n");
 
                 scanf("%d", &list_id);
                 L = list_set.head;
@@ -135,7 +135,7 @@ int main(void) {
                         list_set.head = new_list;
                     }
                     else {
-                        printf("ERROR, something wrong with the RAM");
+                        printf("ERROR, something wrong with the RAM\n");
                     }
                 }
                 printf("\n");
@@ -145,14 +145,14 @@ int main(void) {
                 printf("/*\n * Function Name: DestroyList\n * \
                 Parameter: SqList *L\n * Return: Status(int)\n * Use: destroy the list\n */\n");
 
-                printf("\n please enter the id of the list");
+                printf("\n please enter the id of the list\n");
 
                 scanf("%d", &list_id);
                 L = list_set.head;
                 if (L->ListID == list_id) {
                     list_set.head = list_set.head->next;
                     DestroyList(L);
-                    printf("List %d has been removed", list_id);
+                    printf("List %d has been removed\n", list_id);
                     break;
                 }
                 else {
@@ -163,13 +163,13 @@ int main(void) {
                     }
                 }
                 if (L->next == NULL) {
-                    printf("The list is not exist");
+                    printf("The list is not exist\n");
                 }
                 else {
                     SqList *waiting_for_delete = L->next;
                     L->next = L->next->next;
                     DestroyList(waiting_for_delete);
-                    printf("destroy succeed.");
+                    printf("destroy succeed.\n");
                 }
 
                 printf("\n");
@@ -189,14 +189,14 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     if (ClearList(L) == OK) {
                         printf("List %d has been cleared!\n", list_id);
                     }
                     else {
-                        printf("Clear error, something wrong");
+                        printf("Clear error, something wrong\n");
                     }
                 }
 
@@ -218,7 +218,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     if (IsListEmpty(*L) == TRUE) {
@@ -247,7 +247,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     printf("The length of the list %d is %d.\n", list_id, ListLength(*L));
@@ -271,7 +271,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     if (GetElem(L, elem_order, &list_elem) == OK) {
@@ -300,7 +300,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     list_index = LocateElem(L, list_elem);
@@ -325,7 +325,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     int elem_pre;
@@ -344,7 +344,7 @@ int main(void) {
                 printf("/*\n * Function Name: NextElem\n * Parameter: SqList *L, ElementType cur_e, ElementType *next_e\n * \
                 Return: Status(int)\n * Use: get the next element of next_e\n */\n");
 
-                printf("Then, enter the list id and the element value");
+                printf("Then, enter the list id and the element value\n");
                 
                 scanf("%d %d", &list_id, &list_elem);
 
@@ -355,7 +355,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     int elem_next;
@@ -385,7 +385,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     if (ListInsert(L, elem_order, list_elem) == OK)
@@ -412,7 +412,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     if (ListDelete(L, elem_order, &list_elem) == OK)
@@ -439,7 +439,7 @@ int main(void) {
                     L = L->next;
                 }
                 if (L == NULL) {
-                    printf("ERROR List is not exist.");
+                    printf("ERROR List is not exist.\n");
                 }
                 else {
                     ListTraverse(L);
