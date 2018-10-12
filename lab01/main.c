@@ -53,7 +53,7 @@ Status LoadData(PtrToSet list_set) {
             break;
         count++;
         tmp->data = (int *)malloc(sizeof(int) * tmp->listsize);
-        size = fread(tmp->data, sizeof(SqList), 1, fp);
+        size = fread(tmp->data, sizeof(int) * tmp->listsize, 1, fp);
         L->next = tmp;
         L = L->next;
     }
@@ -329,7 +329,7 @@ int main(void) {
                 }
                 else {
                     int elem_pre;
-                    if (PriorElem(L, list_elem, elem_pre) == OK) {
+                    if (PriorElem(L, list_elem, &elem_pre) == OK) {
                         printf("The piror element of %d is %d.\n", list_elem, elem_pre);
                     }
                     else {
