@@ -23,7 +23,7 @@ typedef int Status;
 
 typedef struct ListNode {
     ElementType data;
-    ListNode *next;
+    struct ListNode *next;
 } ListNode;
 
 typedef struct LinkedList {
