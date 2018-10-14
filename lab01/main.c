@@ -62,6 +62,7 @@ Status LoadData(PtrToSet list_set) {
     list_set->num = count;
 
     fclose(fp);
+    return OK;
 }
 
 Status SaveData(PtrToSet list_set) {
@@ -84,6 +85,7 @@ Status SaveData(PtrToSet list_set) {
     }
 
     fclose(fp);
+    return OK;
 }
 
 int main(void) {
@@ -157,7 +159,7 @@ int main(void) {
                 }
                 else {
                     while (L->next != NULL) {
-                        if (L->ListID == list_id);
+                        if (L->ListID == list_id)
                             break;
                         L = L->next;
                     }
@@ -360,7 +362,7 @@ int main(void) {
                 else {
                     int elem_next;
                     if (NextElem(L, list_elem, &elem_next) == OK) {
-                        printf("The next element of %d is %d.\n", list_elem, &elem_next);
+                        printf("The next element of %d is %d.\n", list_elem, elem_next);
                     }
                     else {
                         printf("ERROR next is not exist~\n");
