@@ -59,7 +59,6 @@ Status DestroyList(LinkedList *L);
  * Use: destroy the list
  */
 
-
 Status ClearList(LinkedList *L);
 /*
  * Function Name: ClearList
