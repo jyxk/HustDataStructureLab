@@ -2,19 +2,19 @@
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-19 09:04:21
  * @LastEditors: Xiuxu Jin
- * @LastEditTime: 2018-10-19 10:29:47
+ * @LastEditTime: 2018-10-19 10:43:12
  * @Description: BinTree.h
  * @Email: jyxking007@gmail.com
  */
 
 /**
  * @file BinTree.h
- * @author your name (you@domain.com)
+ * @author Xiuxu Jin(jyxk) (jyxking007@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2018-10-19
  * 
- * @copyleft Copyleft (c) 2018
+ * @copyleft CopyLeft (c) 2018
  * 
  */
 
@@ -51,7 +51,7 @@ typedef struct TreeNode {
 typedef struct BinTree {
     int id;
     int size;
-    PtrToNode head;
+    PtrToNode root;
     PtrToTree next;
 } BinTree;
 
