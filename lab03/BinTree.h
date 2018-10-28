@@ -1,21 +1,10 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-19 09:04:21
- * @LastEditors: Xiuxu Jin
- * @LastEditTime: 2018-10-19 10:43:12
+ * @LastEditors: Xiuxu Jin(jyxk)
+ * @LastEditTime: 2018-10-24 09:07:07
  * @Description: BinTree.h
  * @Email: jyxking007@gmail.com
- */
-
-/**
- * @file BinTree.h
- * @author Xiuxu Jin(jyxk) (jyxking007@gmail.com)
- * @brief 
- * @version 0.1
- * @date 2018-10-19
- * 
- * @copyleft CopyLeft (c) 2018
- * 
  */
 
 #ifndef _BINTREE_H
@@ -56,8 +45,7 @@ typedef struct BinTree {
 } BinTree;
 
 typedef struct TreeSet {
-    int id;
-    int size; 
+    PtrToTree head;
 } TreeSet;
 
 /**
@@ -106,7 +94,7 @@ BOOL IsBiTreeEmpty(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status BiTreeDepth(PtrToTree T);
+int BiTreeDepth(PtrToTree T);
 
 /**
  * @brief get the root of T and return it 

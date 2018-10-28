@@ -1,21 +1,9 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
- * @Date: 2018-10-19 10:37:35
- * @LastEditors: Xiuxu Jin
- * @LastEditTime: 2018-10-19 10:43:18
- * @Description: file content
- * @Email: jyxking007@gmail.com
- */
-
-/**
- * @file BinTree.c
- * @author Xiuxu Jin(jyxk) (jyxking007@gmail.com)
- * @brief 
- * @version 0.1
- * @date 2018-10-19
- * 
- * @copyleft CopyLeft (c) 2018
- * 
+ * @Date: 2018-10-24 07:48:14
+ * @LastEditors: Xiuxu Jin(jyxk)
+ * @LastEditTime: 2018-10-24 09:12:25
+ * @Description: the implement of binary tree ADT
  */
 
 #include "BinTree.h"
@@ -38,15 +26,37 @@ Status InitBiTree(PtrToTree T) {
  * @param T 
  * @return Status 
  */
-Status DestoryBiTree(PtrToTree T);
+Status DestoryBiTree(PtrToTree T) {
+    FreeAllNode(T->root);
+    return OK;
+}
 
 /**
- * @brief Create a Bi Tree object
+ * @brief free all node in the binary tree
+ *        designed for DestroyBiTree
+ * 
+ * @param node 
+ */
+static void FreeAllNode(PtrToNode node) {
+    if (node == NULL)
+        return;
+    if (node->left_child != NULL)
+        FreeAllNode(node->left_child);
+    if (node->right_child != NULL)
+        FreeAllNode(node->right_child);
+    free(node);
+    return;   
+}
+
+/**
+ * @brief Create a Binary Tree object
  * 
  * @param T 
  * @return Status 
  */
-Status CreateBiTree(PtrToTree T);
+Status CreateBiTree(PtrToTree T) {
+    
+}
 
 /**
  * @brief Clear the binary tree T
@@ -54,7 +64,11 @@ Status CreateBiTree(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status ClearBiTree(PtrToTree T);
+Status ClearBiTree(PtrToTreheade T) {
+    T->size = 0;
+    FreeAllNode(T->root);
+    return OK;
+}
 
 /**
  * @brief Is the binary tree T empty?
@@ -62,7 +76,9 @@ Status ClearBiTree(PtrToTree T);
  * @param T 
  * @return BOOL 
  */
-BOOL IsBiTreeEmpty(PtrToTree T);
+BOOL IsBiTreeEmpty(PtrToTree T) {
+    return T->size == 0;
+}
 
 /**
  * @brief get the binary tree's depth
@@ -70,7 +86,25 @@ BOOL IsBiTreeEmpty(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status BiTreeDepth(PtrToTree T);
+int BiTreeDepth(PtrToTree T) {
+   return GetDepth(T->root, 0); 
+}
+
+/**
+ * @brief Get the Depth of the tree
+ * 
+ * @param node 
+ * @param depth 
+ * @return int 
+ */
+static int GetDepth(PtrToNode node, int depth) {
+    if (node == NULL)
+        return depth;
+    int left_sub_depth = GetDepth(node->left_child, depth+1);
+    int right_sub_depth = GetDepth(node->right_child, depth+1);
+
+    return (left_sub_depth > right_sub_depth) ? left_sub_depth:right_sub_depth;
+}
 
 /**
  * @brief get the root of T and return it 
@@ -78,7 +112,9 @@ Status BiTreeDepth(PtrToTree T);
  * @param T 
  * @return PtrToNode 
  */
-PtrToNode Root(PtrToTree T);
+PtrToNode Root(PtrToTree T) {
+    return T->root;
+}
 
 /**
  * @brief get the {index} node in T
@@ -87,8 +123,11 @@ PtrToNode Root(PtrToTree T);
  * @param index 
  * @return Status 
  */
-Status Value(PtrToTree T, int index);
+Status Value(PtrToTree T, int index) {
+    
+}
 
+ 
 /**
  * @brief assign the index node in T with value
  * 
@@ -194,4 +233,8 @@ Status PostOrderTraverse(PtrToTree T);
  * @param T 
  * @return Status 
  */
+<<<<<<< HEAD
 Status LevelOrderTraverse(PtrToTree T);
+=======
+Status LevelOrderTraverse(PtrToTree T);
+>>>>>>> d784c5c9daf62f41c693f0aedace89a39d9de3ed
