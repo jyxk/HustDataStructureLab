@@ -20,6 +20,9 @@
 #define OK 0
 #define ERROR 1
 
+#define LEFT 0
+#define RIGHT 1
+
 typedef int ElementType;
 typedef int Status;
 typedef int BOOL;
