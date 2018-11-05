@@ -179,7 +179,7 @@ PtrToNode RightSibling(PtrToTree T, int index);
  * @param LorR 
  * @return Status 
  */
-Status InsertChild(PtrToTree T, PtrToNode p, int LorR);
+Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C);
 
 /**
  * @brief delete LorR child of p
@@ -189,7 +189,7 @@ Status InsertChild(PtrToTree T, PtrToNode p, int LorR);
  * @param LorR 
  * @return Status 
  */
-Status DeleteChild(PtrToTree T, PtrToNode p, int LorR);
+Status DeleteChild(PtrToTree T, int index, int LorR);
 
 /**
  * @brief Traverse the binary tree T by preorder

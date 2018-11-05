@@ -9,6 +9,22 @@
 #include "BinTree.h"
 
 /**
+ * @brief free child node and its sons
+ * 
+ * @param node 
+ */
+void free_child(PtrToNode node) {
+    if (node == NULL)
+        return;
+    if (node->left_child != NULL)
+        free_child(node->left_child);
+    if (node->right_child != NULL)
+        free_child(node->right_child);
+
+    free(node);
+}
+
+/**
  * @brief Inital a binary tree
  * 
  * @param T 
@@ -64,7 +80,7 @@ Status CreateBiTree(PtrToTree T) {
  * @param T 
  * @return Status 
  */
-Status ClearBiTree(PtrToTreheade T) {
+Status ClearBiTree(PtrToTree T) {
     T->size = 0;
     FreeAllNode(T->root);
     return OK;
@@ -285,6 +301,36 @@ PtrToNode RightSibling(PtrToTree T, int index) {
 }
 
 /**
+ * @brief assist function to insert a child tree
+ * 
+ * @param node 
+ * @param index 
+ * @param LorR 
+ * @param sub_tree 
+ * @return PtrToNode 
+ */
+PtrToNode TreeInsertChild(PtrToNode node, int index, int LorR, PtrToNode sub_tree) {
+    if (node == NULL)
+        return NULL;
+    if (node->index == index) {
+        PtrToNode tmp_node;
+        if (LorR == LEFT) {
+            tmp_node = node->left_child;
+            node->left_child = sub_tree;
+        }
+        else {
+            tmp_node = node->right_child;
+            node->right_child = sub_tree;
+        }
+        sub_tree->right_child = tmp_node;
+    }
+
+    node->left_child = TreeInsertChild(node->left_child, index, LorR, sub_tree);
+    node->right_child = TreeInsertChild(node->right_child, index, LorR, sub_tree);
+    return node;
+}
+
+/**
  * @brief insert LorR child to p
  * 
  * @param T 
@@ -292,8 +338,20 @@ PtrToNode RightSibling(PtrToTree T, int index) {
  * @param LorR 
  * @return Status 
  */
-Status InsertChild(PtrToTree T, PtrToNode p, int LorR, PtrToTree ) {
+Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C) {
+    if (T->root == NULL || C->root == NULL || C->root->right_child != NULL)
+        return ERROR;
+    T->size += C->size;
+    T->root = TreeInsertChild(T->root, index, LorR, C->root);
+    return OK;
+}
 
+static int search_binary_tree(PtrToNode node, int index) {
+    if (node = NULL)
+        return 0;
+    if (node->index == index)
+        return 1;
+    return search_binary_tree(node->left_child, index) | search_binary_tree(node->right_child, index);
 }
 
 /**
@@ -304,7 +362,9 @@ Status InsertChild(PtrToTree T, PtrToNode p, int LorR, PtrToTree ) {
  * @param LorR 
  * @return Status 
  */
-Status DeleteChild(PtrToTree T, PtrToNode p, int LorR);
+Status DeleteChild(PtrToTree T, int index, int LorR) {
+
+}
 
 /**
  * @brief Traverse the binary tree T by preorder
