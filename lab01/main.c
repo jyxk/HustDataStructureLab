@@ -164,7 +164,7 @@ int main(void) {
                         L = L->next;
                     }
                 }
-                if (L->next == NULL) {
+                if (L->next == NULL && L != NULL) {
                     printf("The list is not exist\n");
                 }
                 else {

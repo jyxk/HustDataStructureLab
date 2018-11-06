@@ -36,7 +36,7 @@ Status DestroyList(SqList *L) {
     else 
         return ERROR;
     
-    memset(L, 0, LIST_INIT_SIZE);
+    memset(L, 0, sizeof(SqList));
 
     return OK;
 }
