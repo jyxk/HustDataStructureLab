@@ -1,12 +1,22 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-24 07:48:14
- * @LastEditors: Xiuxu Jin(jyxk)
- * @LastEditTime: 2018-10-24 09:12:25
+ * @LastEditors: Xiuxu Jin
+ * @LastEditTime: 2018-11-06 22:11:42
  * @Description: the implement of binary tree ADT
  */
 
 #include "BinTree.h"
+
+int search_array(int * array, int size, int target) {
+    int i;
+    for (i = 0; i < size; i++) {
+        if (array[i] == target)
+            return i;
+    }
+    return -1;
+}
+
 
 /**
  * @brief free child node and its sons
@@ -346,6 +356,13 @@ Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C) {
     return OK;
 }
 
+/**
+ * @brief assist function for search a binary tree
+ * 
+ * @param node 
+ * @param index 
+ * @return int 
+ */
 static int search_binary_tree(PtrToNode node, int index) {
     if (node = NULL)
         return 0;
@@ -355,15 +372,83 @@ static int search_binary_tree(PtrToNode node, int index) {
 }
 
 /**
+ * @brief assist function to count binary tree node
+ * 
+ * @param node 
+ * @return int 
+ */
+int count_binary_tree(PtrToNode node) {
+    if (node == NULL)
+        return 0;
+    return 1+ count_binary_tree(node->left_child) + count_binary_tree(node->right_child);
+}
+
+/**
+ * @brief assist function to delete a child of a tree
+ * 
+ * @param node 
+ * @param index 
+ * @param LorR 
+ * @return PtrToNode 
+ */
+PtrToNode delete_child(PtrToNode node, int index, int LorR) {
+    if (node == NULL)
+        return NULL;
+    if (node->index == index) {
+        if (LorR == LEFT) {
+            free_child(node->left_child);
+            node->left_child = NULL;
+        }
+        else {
+            free_child(node->right_child);
+            node->right_child = NULL;
+        }
+    }
+    node->left_child = delete_child(node->left_child, index, LorR);
+    node->right_child = delete_child(node->right_child, index, LorR);
+    return node;
+}
+
+/**
  * @brief delete LorR child of p
  * 
  * @param T 
  * @param p 
- * @param LorR 
+ * @param LorR                     list_set.head->next = (SqList *)malloc(sizeof(SqList));
  * @return Status 
  */
 Status DeleteChild(PtrToTree T, int index, int LorR) {
+    if (T->root == NULL || !search_binary_tree(T->root, index))
+        return ERROR;
+    T->root = delete_child(T->root, index, LorR);
+    T->size = count_binary_tree(T->root);
+    return OK;
+}
 
+/**
+ * @brief assist function for traerse a tree by different ways
+ * 
+ * @param node 
+ * @param flag 
+ */
+void traverse_tree(PtrToNode node, int flag) {
+    if (node == NULL)
+        return ;
+    if (flag == PRE_ORDER) {
+        printf("Index: %d, Value: %d \n", node->index, node->data);
+        traverse_tree(node->left_child, flag);
+        traverse_tree(node->right_child, flag);
+    }
+    if (flag == POST_ORDER) {
+        traverse_tree(node->left_child, flag);
+        traverse_tree(node->right_child, flag);
+        printf("Index: %d, Value: %d \n", node->index, node->data);
+    }
+    if (flag == IN_ORDER) {
+        traverse_tree(node->left_child, flag);
+        printf("Index: %d, Value: %d \n", node->index, node->data);
+        traverse_tree(node->right_child, flag);
+    }
 }
 
 /**
@@ -372,7 +457,14 @@ Status DeleteChild(PtrToTree T, int index, int LorR) {
  * @param T 
  * @return Status 
  */
-Status PreOrderTraverse(PtrToTree T);
+Status PreOrderTraverse(PtrToTree T) {
+    if (T->root == NULL)
+        return ERROR;
+    printf("Pre Order Traverse tree:%d\n", T->id);
+    printf("Tree size: %d \n", T->size);
+    traverse_tree(T->root, PRE_ORDER);
+    return OK;
+}
 
 /**
  * @brief Traverse the binary tree T by inorder
@@ -380,7 +472,14 @@ Status PreOrderTraverse(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status InOrderTraverse(PtrToTree T);
+Status InOrderTraverse(PtrToTree T) {
+    if (T->root == NULL)
+        return ERROR;
+    printf("In Order Traverse tree:%d\n", T->id);
+    printf("Tree size: %d \n", T->size);
+    traverse_tree(T->root, IN_ORDER);
+    return OK;
+}
 
 /**
  * @brief Traverse the binary tree T by postorder
@@ -388,7 +487,14 @@ Status InOrderTraverse(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status PostOrderTraverse(PtrToTree T);
+Status PostOrderTraverse(PtrToTree T) {
+    if (T->root == NULL)
+        return ERROR;
+    printf("Post Order Traverse tree:%d\n", T->id);
+    printf("Tree size: %d \n", T->size);
+    traverse_tree(T->root, POST_ORDER);
+    return OK;
+}
 
 /**
  * @brief Traverse the binary tree T by level

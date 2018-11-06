@@ -1,8 +1,8 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-19 09:04:21
- * @LastEditors: Xiuxu Jin(jyxk)
- * @LastEditTime: 2018-10-24 09:07:07
+ * @LastEditors: Xiuxu Jin
+ * @LastEditTime: 2018-11-06 21:58:46
  * @Description: BinTree.h
  * @Email: jyxking007@gmail.com
  */
@@ -14,14 +14,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define TRUE 1
+#define TRUE  1
 #define FALSE 0
 
-#define OK 0
+#define OK    0
 #define ERROR 1
 
-#define LEFT 0
+#define LEFT  0
 #define RIGHT 1
+
+#define PRE_ORDER  0
+#define IN_ORDER   1
+#define POST_ORDER 2
 
 typedef int ElementType;
 typedef int Status;
