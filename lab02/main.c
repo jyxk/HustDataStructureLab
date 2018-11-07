@@ -164,20 +164,20 @@ int main(void) {
 
                 scanf("%d", &list_id);
                 L = list_set.head;
-                if (L->ID == list_id) {
+                if (L != NULL && L->ID == list_id) {
                     list_set.head = list_set.head->next;
                     DestroyList(L);
                     printf("List %d has been removed\n", list_id);
                     break;
                 }
                 else {
-                    while (L->next != NULL) {
+                    while (L != NULL && L->next != NULL) {
                         if (L->ID == list_id)
                             break;
                         L = L->next;
                     }
                 }
-                if (L->next == NULL) {
+                if (L == NULL || L->next == NULL) {
                     printf("The list is not exist\n");
                 }
                 else {

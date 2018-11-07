@@ -35,7 +35,8 @@ Status DestroyList(LinkedList *L) {
     }
 
     free(L);
-
+    //L = NULL;
+    //L->next = NULL;
     return OK;
 }
 
