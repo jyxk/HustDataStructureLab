@@ -1,11 +1,13 @@
 #ifndef _Queue_h
 
+#include "BinTree.h"
+
 struct QueueRecord;
 typedef struct QueueRecord *Queue;
-typedef int ElementType;
+typedef PtrToNode ElementType;
 
-int IsEmpty(Queue Q);
-int IsFull(Queue Q);
+int IsQueueEmpty(Queue Q);
+int IsQueueFull(Queue Q);
 Queue CreateQueue(int MaxElements);
 void DisposeQueue(Queue Q);
 void MakeEmpty(Queue Q);
@@ -18,7 +20,7 @@ ElementType FrontAndDequeue(Queue Q);
 
 //place in implementation file
 //Queue implementation is a dynamically allocated array
-#define MinQueueSize (5)
+#define MinQueueSize (50)
 
 struct QueueRecord{
     int Capacity;

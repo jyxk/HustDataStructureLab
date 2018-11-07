@@ -1,12 +1,13 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-24 07:48:14
- * @LastEditors: Xiuxu Jin
- * @LastEditTime: 2018-11-06 22:11:42
+ * @LastEditors: Xiuxu Jin(jyxk)
+ * @LastEditTime: 2018-11-07 09:33:38
  * @Description: the implement of binary tree ADT
  */
 
 #include "BinTree.h"
+#include "queue.h"
 
 int search_array(int * array, int size, int target) {
     int i;
@@ -502,4 +503,24 @@ Status PostOrderTraverse(PtrToTree T) {
  * @param T 
  * @return Status 
  */
-Status LevelOrderTraverse(PtrToTree T);
+Status LevelOrderTraverse(PtrToTree T) {
+    if (T->root == NULL)
+        return ERROR;
+    
+    Queue node_queue = CreateQueue(T->size + 5);
+    PtrToNode node = NULL;
+    printf("Level Order Traverse(BFS) tree:%d\n", T->id);
+    printf("Tree size: %d \n", T->size);
+
+    Enqueue(T->root, node_queue);
+    while(!IsQueueEmpty(node_queue)) {
+        node = FrontAndDequeue(node_queue);
+        printf("Index: %d, Value: %d\n", node->index, node->data);
+        if (node->left_child != NULL)
+            Enqueue(node->left_child, node_queue);
+        if (node->right_child != NULL)
+            Enqueue(node->right_child, node_queue);
+    }
+
+    return OK;
+}
