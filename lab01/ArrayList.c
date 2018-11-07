@@ -35,7 +35,8 @@ Status DestroyList(SqList *L) {
         free(L->data);
     else 
         return ERROR;
-    
+    //L = NULL;
+    // / = NULL;
     memset(L, 0, sizeof(SqList));
 
     return OK;
