@@ -1,0 +1,1 @@
+/usr/bin/cc    CMakeFiles/lab01.dir/ArrayList.c.o CMakeFiles/lab01.dir/main.c.o  -o lab01 

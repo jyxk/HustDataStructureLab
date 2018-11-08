@@ -144,27 +144,26 @@ int main(void) {
                 break;
 
             case 2:
-                printf("/*\n * Function Name: DestroyList\n * \
-                Parameter: SqList *L\n * Return: Status(int)\n * Use: destroy the list\n */\n");
+                printf("/*\n * Function Name: DestroyList\n * Parameter: SqList *L\n * Return: Status(int)\n * Use: destroy the list\n */\n");
 
                 printf("\n please enter the id of the list\n");
 
                 scanf("%d", &list_id);
                 L = list_set.head;
-                if (L != NULL &&L->ListID == list_id) {
+                if (L != NULL && L->ListID == list_id) {
                     list_set.head = list_set.head->next;
                     DestroyList(L);
                     printf("List %d has been removed\n", list_id);
                     break;
                 }
                 else {
-                    while (L != NULL && L->next != NULL) {
-                        if (L->ListID == list_id)
+                    while (L->next != NULL) {
+                        if (L->next->ListID == list_id)
                             break;
                         L = L->next;
                     }
                 }
-                if (L == NULL || L->next == NULL) {
+                if (L->next == NULL) {
                     printf("The list is not exist\n");
                 }
                 else {
@@ -178,8 +177,7 @@ int main(void) {
                 break;
 
             case 3:
-                printf("/*\n * Function Name: ClearList\n * Parameter: SqList *L\n * \
-                Return: Status(int)\n * Use: clear the list\n */\n");
+                printf("/*\n * Function Name: ClearList\n * Parameter: SqList *L\n * Return: Status(int)\n * Use: clear the list\n */\n");
                 printf("Then, enter the list id: ");
                 
                 scanf("%d", &list_id);
@@ -206,8 +204,7 @@ int main(void) {
                 break;
 
             case 4:
-                printf("/*\n * Function Name: IsListEmpty\n * Parameter: SqList L\n * \
-                Return: Status(int) \n * Use: to know the list is empty or not\n */\n");
+                printf("/*\n * Function Name: IsListEmpty\n * Parameter: SqList L\n * Return: Status(int) \n * Use: to know the list is empty or not\n */\n");
 
                 printf("Then, enter the list id: ");
                 
@@ -235,8 +232,7 @@ int main(void) {
                 break;
 
             case 5:
-                printf("/*\n * Function Name: ListLength\n * Parameter: SqList L\n * \
-                Return: length of the list(int)\n * Use: get the length of the list\n */\n");
+                printf("/*\n * Function Name: ListLength\n * Parameter: SqList L\n * Return: length of the list(int)\n * Use: get the length of the list\n */\n");
 
                 printf("Then, enter the list id: ");
                 
@@ -259,8 +255,7 @@ int main(void) {
                 break;
 
             case 6:
-                printf("/*\n * Function Name: GetElem\n * Parameter: SqList *L, int index, ElementType *e\n * \
-                Return: Status(int)\n * Use: get L->data[index] return it from *e\n */\n");
+                printf("/*\n * Function Name: GetElem\n * Parameter: SqList *L, int index, ElementType *e\n * Return: Status(int)\n * Use: get L->data[index] return it from *e\n */\n");
 
                 printf("Then, enter the list id and the index");
                 
@@ -288,8 +283,7 @@ int main(void) {
                 break;
 
             case 7:
-                printf("/*\n * Function Name: LocateElem\n * Parameter: SqList *L, ElementType e\n * \
-                Return: the index of e or 0 if e isn't exist\n * Use: get the index of e\n */\n");
+                printf("/*\n * Function Name: LocateElem\n * Parameter: SqList *L, ElementType e\n * Return: the index of e or 0 if e isn't exist\n * Use: get the index of e\n */\n");
 
                 printf("Then, enter the list id and the element value");
                 
@@ -306,15 +300,17 @@ int main(void) {
                 }
                 else {
                     list_index = LocateElem(L, list_elem);
-                    printf("The index of the %d is %d.", list_elem, list_index);
+                    if (list_index != 0)
+                        printf("The index of the %d is %d.", list_elem, list_index);
+                    else
+                        printf("The element is not exist!\n");
                 }
 
                 printf("\n");
                 break;
 
             case 8:
-                printf("/*\n * Function Name: PriorElem\n * Parameter: SqList *L, ElementType cur_e, ElementType *pre_e\n * \
-                Return: Status(int)\n * Use: get the prior element of cur_e\n */\n");
+                printf("/*\n * Function Name: PriorElem\n * Parameter: SqList *L, ElementType cur_e, ElementType *pre_e\n * Return: Status(int)\n * Use: get the prior element of cur_e\n */\n");
 
                 printf("Then, enter the list id and the element value");
                 
@@ -331,9 +327,12 @@ int main(void) {
                 }
                 else {
                     int elem_pre;
-                    if (PriorElem(L, list_elem, &elem_pre) == OK) {
+                    int flag = PriorElem(L, list_elem, &elem_pre);
+                    if (flag == OK) {
                         printf("The piror element of %d is %d.\n", list_elem, elem_pre);
                     }
+                    else if (flag == -1)
+                        printf("The first element has no prior element!\n");
                     else {
                         printf("ERROR piror is not exist~\n");
                     }
@@ -343,8 +342,7 @@ int main(void) {
                 break;
 
             case 9:
-                printf("/*\n * Function Name: NextElem\n * Parameter: SqList *L, ElementType cur_e, ElementType *next_e\n * \
-                Return: Status(int)\n * Use: get the next element of next_e\n */\n");
+                printf("/*\n * Function Name: NextElem\n * Parameter: SqList *L, ElementType cur_e, ElementType *next_e\n * Return: Status(int)\n * Use: get the next element of next_e\n */\n");
 
                 printf("Then, enter the list id and the element value\n");
                 
@@ -373,8 +371,7 @@ int main(void) {
                 break;
 
             case 10:
-                printf("/* \n * Function Name: ListInsert\n * Parameter: SqList *l, int index, ElementType e\n * \
-                Return: Status(int)\n * Use: insert e in front of data[index]\n */\n");
+                printf("/* \n * Function Name: ListInsert\n * Parameter: SqList *l, int index, ElementType e\n * Return: Status(int)\n * Use: insert e in front of data[index]\n */\n");
 
                 printf("Then, enter the list id, index and the element value");
                 
@@ -400,8 +397,7 @@ int main(void) {
                 break;
 
             case 11:
-                printf("/* \n * Function Name: ListDelete\n * Parameter: SqList *L, int index, ElementType *e\n * \
-                Return: Status(int)\n * Use: delete data[index] and return its value from e\n */\n");
+                printf("/* \n * Function Name: ListDelete\n * Parameter: SqList *L, int index, ElementType *e\n * Return: Status(int)\n * Use: delete data[index] and return its value from e\n */\n");
 
                 printf("Then, enter the list id and index");
                 
@@ -427,8 +423,7 @@ int main(void) {
                 break;
 
             case 12:
-                printf("/*\n * Function Name: ListTraverse\n * Parameter: SqList *L\n * \
-                Return: Status(int)\n * Use: traverse L\n */\n");
+                printf("/*\n * Function Name: ListTraverse\n * Parameter: SqList *L\n * Return: Status(int)\n * Use: traverse L\n */\n");
 
                 printf("Then, enter the list id");
                 

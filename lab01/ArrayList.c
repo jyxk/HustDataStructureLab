@@ -136,6 +136,8 @@ Status PriorElem(SqList *L, ElementType cur_e, ElementType *pre_e) {
     if (index == L->length)
         return ERROR;
     else {
+        if (index == 0)
+            return -1;
         *pre_e = L->data[index-1];
         return index;
     }
@@ -173,7 +175,7 @@ Status ListInsert(SqList *L, int index, ElementType e) {
     if (L->data == NULL || L->listsize == 0 || index <= 0 || index > L->listsize)
         return ERROR;
     
-    if (L->length == L->listsize) {
+    if (L->length == L->listsize+1) {
         ElementType *new_list = (ElementType *) realloc(L->data, (L->listsize + LISTINCREMENT) * sizeof(int));
         if (new_list == NULL)
             return ERROR;
@@ -183,7 +185,7 @@ Status ListInsert(SqList *L, int index, ElementType e) {
 
     int i;
 
-    for (i = L->listsize; i >= index; i--)
+    for (i = L->listsize+1; i >= index; i--)
         L->data[i] = L->data[i-1];
     
     L->data[index-1] = e;
