@@ -35,8 +35,6 @@ Status DestroyList(LinkedList *L) {
     }
 
     free(L);
-    //L = NULL;
-    //L->next = NULL;
     return OK;
 }
 
@@ -102,7 +100,6 @@ Status GetElem(LinkedList *L, int index, ElementType *e) {
             *e = node->data;
             break;
         }
-        else
             node = node ->next;
     }
     if (node == NULL)
@@ -213,7 +210,7 @@ Status ListInsert(LinkedList *L, int index, ElementType e) {
             new_node->next = node->next;
             node->next = new_node;
             L->Length++;
-            return OK;  
+            break;
         }
         node = node->next;
     }
@@ -249,7 +246,7 @@ Status ListDelete(LinkedList *L, int index, ElementType *e) {
         if (node_index == index-1) {
             PtrToNode tmp = node->next;
             *e = tmp->data;
-            node->next = tmp->next;
+            node->next = node->next->next;
             free(tmp);
             L->Length--;
             break;
@@ -270,8 +267,10 @@ Status ListTraverse(LinkedList *L) {
  * return: Status(int)
  * Use: traverse L
  */
+    int i = 0;
     PtrToNode node = L->head;
-    for (int i = 0; node != NULL; i++) {
+    while (node!=NULL && node->next != NULL) {
+        i++;
         printf("Index: %d, Data: %d \n", i, node->data);
         node = node->next;
     }

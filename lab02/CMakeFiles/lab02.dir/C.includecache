@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jyxk/Code/HustDataStructureLab/lab02/LinkedList.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/home/jyxk/Code/HustDataStructureLab/lab02/main.c
+main.h
+/home/jyxk/Code/HustDataStructureLab/lab02/main.h
+
+/home/jyxk/Code/HustDataStructureLab/lab02/main.h
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+LinkedList.h
+/home/jyxk/Code/HustDataStructureLab/lab02/LinkedList.h
+

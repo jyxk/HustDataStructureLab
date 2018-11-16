@@ -118,7 +118,7 @@ int main(void) {
         list_set.num = 0;
         LoadData(&list_set);
 
-        int list_id, list_elem, list_index, elem_order;
+        int list_id = 0, list_elem = 0, list_index = 0, elem_order = 0;
         PtrToList L = NULL;
 
         switch(func_flag) {
@@ -129,7 +129,7 @@ int main(void) {
                 printf(" * Return: Status(int)\n");
                 printf(" * Use: initial the linear list\n"); 
                 printf(" */\n");
-                printf("\n please enter the id of the list\n");
+                printf("\n please enter the id of the list: \n");
 
                 scanf("%d", &list_id);
                 L = list_set.head;
@@ -142,12 +142,12 @@ int main(void) {
                     printf("Error, the list %d already exist.\n", list_id);
                 }
                 else {
-                    PtrToList new_list = (PtrToList)malloc(sizeof(LinkedList));
-                    if (InitaList(new_list) == OK) {
+                    LinkedList new_list;
+                    if (InitaList(&new_list) == OK) {
                         printf("Inital the list %d succeed.\n", list_id);
-                        new_list->ID = list_id;
-                        new_list->next = list_set.head;
-                        list_set.head = new_list;
+                        new_list.ID = list_id;
+                        new_list.next = list_set.head;
+                        list_set.head = &new_list;
                     }
                     else {
                         printf("ERROR, something wrong with the RAM\n");
@@ -157,10 +157,9 @@ int main(void) {
                 break;
 
             case 2:
-                printf("/*\n * Function Name: DestroyList\n * \
-                Parameter: LinkedList *L\n * Return: Status(int)\n * Use: destroy the list\n */\n");
+                printf("/*\n * Function Name: DestroyList\n * Parameter: LinkedList *L\n * Return: Status(int)\n * Use: destroy the list\n */\n");
 
-                printf("\n please enter the id of the list\n");
+                printf("\n please enter the id of the list: \n");
 
                 scanf("%d", &list_id);
                 L = list_set.head;
@@ -171,28 +170,27 @@ int main(void) {
                     break;
                 }
                 else {
-                    while (L != NULL && L->next != NULL) {
-                        if (L->ID == list_id)
+                    while (L->next != NULL) {
+                        if (L->next->ID == list_id)
                             break;
                         L = L->next;
                     }
                 }
-                if (L == NULL || L->next == NULL) {
+                if (L->next == NULL) {
                     printf("The list is not exist\n");
                 }
                 else {
                     PtrToList waiting_for_delete = L->next;
                     L->next = L->next->next;
                     DestroyList(waiting_for_delete);
-                    printf("destroy succeed.\n");
+                    printf("List %d has been removed\n", list_id);
                 }
 
                 printf("\n");
                 break;
 
             case 3:
-                printf("/*\n * Function Name: ClearList\n * Parameter: LinkedList *L\n * \
-                Return: Status(int)\n * Use: clear the list\n */\n");
+                printf("/*\n * Function Name: ClearList\n * Parameter: LinkedList *L\n * Return: Status(int)\n * Use: clear the list\n */\n");
                 printf("Then, enter the list id: ");
                 
                 scanf("%d", &list_id);
@@ -219,8 +217,7 @@ int main(void) {
                 break;
 
             case 4:
-                printf("/*\n * Function Name: IsListEmpty\n * Parameter: LinkedList L\n * \
-                Return: Status(int) \n * Use: to know the list is empty or not\n */\n");
+                printf("/*\n * Function Name: IsListEmpty\n * Parameter: LinkedList L\n * Return: Status(int) \n * Use: to know the list is empty or not\n */\n");
 
                 printf("Then, enter the list id: ");
                 
@@ -248,8 +245,7 @@ int main(void) {
                 break;
 
             case 5:
-                printf("/*\n * Function Name: ListLength\n * Parameter: LinkedList L\n * \
-                Return: length of the list(int)\n * Use: get the length of the list\n */\n");
+                printf("/*\n * Function Name: ListLength\n * Parameter: LinkedList L\n * Return: length of the list(int)\n * Use: get the length of the list\n */\n");
 
                 printf("Then, enter the list id: ");
                 
@@ -272,10 +268,9 @@ int main(void) {
                 break;
 
             case 6:
-                printf("/*\n * Function Name: GetElem\n * Parameter: LinkedList *L, int index, ElementType *e\n * \
-                Return: Status(int)\n * Use: get L->data[index] return it from *e\n */\n");
+                printf("/*\n * Function Name: GetElem\n * Parameter: LinkedList *L, int index, ElementType *e\n * Return: Status(int)\n * Use: get L->data[index] return it from *e\n */\n");
 
-                printf("Then, enter the list id and the index");
+                printf("Then, enter the list id and the index: ");
                 
                 scanf("%d %d", &list_id, &elem_order);
 
@@ -301,10 +296,9 @@ int main(void) {
                 break;
 
             case 7:
-                printf("/*\n * Function Name: LocateElem\n * Parameter: LinkedList *L, ElementType e\n * \
-                Return: the index of e or 0 if e isn't exist\n * Use: get the index of e\n */\n");
+                printf("/*\n * Function Name: LocateElem\n * Parameter: LinkedList *L, ElementType e\n * Return: the index of e or 0 if e isn't exist\n * Use: get the index of e\n */\n");
 
-                printf("Then, enter the list id and the element value");
+                printf("Then, enter the list id and the element value: ");
                 
                 scanf("%d %d", &list_id, &list_elem);
 
@@ -326,8 +320,7 @@ int main(void) {
                 break;
 
             case 8:
-                printf("/*\n * Function Name: PriorElem\n * Parameter: LinkedList *L, ElementType cur_e, ElementType *pre_e\n * \
-                Return: Status(int)\n * Use: get the prior element of cur_e\n */\n");
+                printf("/*\n * Function Name: PriorElem\n * Parameter: LinkedList *L, ElementType cur_e, ElementType *pre_e\n * Return: Status(int)\n * Use: get the prior element of cur_e\n */\n");
 
                 printf("Then, enter the list id and the element value");
                 
@@ -356,10 +349,9 @@ int main(void) {
                 break;
 
             case 9:
-                printf("/*\n * Function Name: NextElem\n * Parameter: LinkedList *L, ElementType cur_e, ElementType *next_e\n * \
-                Return: Status(int)\n * Use: get the next element of next_e\n */\n");
+                printf("/*\n * Function Name: NextElem\n * Parameter: LinkedList *L, ElementType cur_e, ElementType *next_e\n * Return: Status(int)\n * Use: get the next element of next_e\n */\n");
 
-                printf("Then, enter the list id and the element value\n");
+                printf("Then, enter the list id and the element value: \n");
                 
                 scanf("%d %d", &list_id, &list_elem);
 
@@ -386,10 +378,9 @@ int main(void) {
                 break;
 
             case 10:
-                printf("/* \n * Function Name: ListInsert\n * Parameter: LinkedList *l, int index, ElementType e\n * \
-                Return: Status(int)\n * Use: insert e in front of data[index]\n */\n");
+                printf("/* \n * Function Name: ListInsert\n * Parameter: LinkedList *l, int index, ElementType e\n * Return: Status(int)\n * Use: insert e in front of data[index]\n */\n");
 
-                printf("Then, enter the list id, index and the element value");
+                printf("Then, enter the list id, index and the element value: ");
                 
                 scanf("%d %d %d", &list_id, &elem_order, &list_elem);
 
@@ -413,10 +404,9 @@ int main(void) {
                 break;
 
             case 11:
-                printf("/* \n * Function Name: ListDelete\n * Parameter: LinkedList *L, int index, ElementType *e\n * \
-                Return: Status(int)\n * Use: delete data[index] and return its value from e\n */\n");
+                printf("/* \n * Function Name: ListDelete\n * Parameter: LinkedList *L, int index, ElementType *e\n * Return: Status(int)\n * Use: delete data[index] and return its value from e\n */\n");
 
-                printf("Then, enter the list id and index");
+                printf("Then, enter the list id and index: ");
                 
                 scanf("%d %d", &list_id, &elem_order);
 
@@ -440,10 +430,9 @@ int main(void) {
                 break;
 
             case 12:
-                printf("/*\n * Function Name: ListTraverse\n * Parameter: LinkedList *L\n * \
-                Return: Status(int)\n * Use: traverse L\n */\n");
+                printf("/*\n * Function Name: ListTraverse\n * Parameter: LinkedList *L\n * Return: Status(int)\n * Use: traverse L\n */\n");
 
-                printf("Then, enter the list id");
+                printf("Then, enter the list id: ");
                 
                 scanf("%d", &list_id);
 
@@ -457,6 +446,7 @@ int main(void) {
                     printf("ERROR List is not exist.\n");
                 }
                 else {
+                    printf("The elements in linked list %d are:\n", list_id);
                     ListTraverse(L);
                 }
 
