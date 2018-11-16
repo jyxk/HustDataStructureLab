@@ -57,7 +57,7 @@ Status LoadData(PtrToSet list_set) {
 
         for (index = 0; index < tmp->Length; index++) {
             PtrToNode tmp_node = (PtrToNode)malloc(sizeof(LinkedList));
-            fread(tmp_node, sizeof(LinkedList), 1, fp);
+            fread(tmp_node, sizeof(ListNode), 1, fp);
             node->next = tmp_node;
             node = node->next;
         }
@@ -170,13 +170,13 @@ int main(void) {
                     break;
                 }
                 else {
-                    while (L->next != NULL) {
+                    while (L != NULL && L->next != NULL) {
                         if (L->next->ID == list_id)
                             break;
                         L = L->next;
                     }
                 }
-                if (L->next == NULL) {
+                if (L==NULL || L->next == NULL) {
                     printf("The list is not exist\n");
                 }
                 else {
@@ -288,7 +288,7 @@ int main(void) {
                         printf("The element is %d.\n", list_elem);
                     }
                     else {
-                        printf("ERROR\n");
+                        printf("Index crosses the border!\n");
                     }
                 }
 
@@ -313,7 +313,10 @@ int main(void) {
                 }
                 else {
                     list_index = LocateElem(L, list_elem);
-                    printf("The index of the %d is %d.", list_elem, list_index);
+                    if (list_index == 0)
+                        printf("The %d is not in the list %d", list_elem, L->ID);
+                    else
+                        printf("The index of the %d is %d.", list_elem, list_index);
                 }
 
                 printf("\n");
@@ -341,7 +344,11 @@ int main(void) {
                         printf("The piror element of %d is %d.\n", list_elem, elem_pre);
                     }
                     else {
-                        printf("ERROR piror is not exist~\n");
+                        if (elem_pre != INT_MAX)
+                            printf("ERROR piror is not exist~\n");
+                        else
+                            printf("The element %d is not in the list %d", list_elem, L->ID);
+
                     }
                 }
 
@@ -370,7 +377,10 @@ int main(void) {
                         printf("The next element of %d is %d.\n", list_elem, elem_next);
                     }
                     else {
-                        printf("ERROR next is not exist~\n");
+                        if (elem_next != INT_MAX)
+                            printf("ERROR next is not exist~\n");
+                        else
+                            printf("The element %d is not in the list %d", list_elem, L->ID);
                     }
                 }
 
@@ -419,6 +429,9 @@ int main(void) {
                 if (L == NULL) {
                     printf("ERROR List is not exist.\n");
                 }
+                else if (elem_order > L->Length || elem_order <= 0) {
+                    printf("Index crosses the border!\n");
+                }
                 else {
                     if (ListDelete(L, elem_order, &list_elem) == OK)
                         printf("Delete %d succeed!\n", list_elem);
@@ -444,6 +457,9 @@ int main(void) {
                 }
                 if (L == NULL) {
                     printf("ERROR List is not exist.\n");
+                }
+                else if(L->Length == 0) {
+                    printf("The linked list %d is void!\n", L->ID);
                 }
                 else {
                     printf("The elements in linked list %d are:\n", list_id);

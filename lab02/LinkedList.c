@@ -142,7 +142,7 @@ Status PriorElem(LinkedList *L, ElementType cur_e, ElementType *pre_e) {
  */
     PtrToNode prior_node = L->head;
     PtrToNode node = prior_node->next;
-
+    *pre_e = INT_MAX;
     while (node != NULL) {
         if (node->data == cur_e) {
             *pre_e = prior_node->data;
@@ -167,7 +167,7 @@ Status NextElem(LinkedList *L, ElementType cur_e, ElementType *next_e) {
  */
     PtrToNode node = L->head;
     PtrToNode next_node = node->next;
-
+    *next_e = INT_MAX;
     while (next_node != NULL) {
         if (node->data == cur_e) {
             *next_e = next_node->data;
@@ -269,7 +269,7 @@ Status ListTraverse(LinkedList *L) {
  */
     int i = 0;
     PtrToNode node = L->head;
-    while (node!=NULL && node->next != NULL) {
+    while (node!=NULL) {
         i++;
         printf("Index: %d, Data: %d \n", i, node->data);
         node = node->next;
