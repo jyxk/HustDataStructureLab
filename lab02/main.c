@@ -340,16 +340,15 @@ int main(void) {
                 }
                 else {
                     int elem_pre;
-                    if (PriorElem(L, list_elem, &elem_pre) == OK) {
+                    if (list_elem == L->head->data) {
+                        printf("The piror element is not exist!\n");
+                        break;
+                    }
+                    else if (PriorElem(L, list_elem, &elem_pre) == OK) {
                         printf("The piror element of %d is %d.\n", list_elem, elem_pre);
                     }
-                    else {
-                        if (elem_pre != INT_MAX)
-                            printf("ERROR piror is not exist~\n");
-                        else
+                    else
                             printf("The element %d is not in the list %d", list_elem, L->ID);
-
-                    }
                 }
 
                 printf("\n");
