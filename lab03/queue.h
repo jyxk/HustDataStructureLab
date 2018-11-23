@@ -1,20 +1,29 @@
+/*
+ * @Author: Xiuxu Jin(jyxk)
+ * @Date: 2018-11-16 23:28:12
+ * @LastEditors: Xiuxu Jin
+ * @LastEditTime: 2018-11-18 09:39:27
+ * @Description: file content
+ * @Email: jyxking007@gmail.com
+ */
+
 #ifndef _Queue_h
 
 #include "BinTree.h"
 
 struct QueueRecord;
 typedef struct QueueRecord *Queue;
-typedef PtrToNode ElementType;
+typedef PtrToNode ElemType;
 
 int IsQueueEmpty(Queue Q);
 int IsQueueFull(Queue Q);
 Queue CreateQueue(int MaxElements);
 void DisposeQueue(Queue Q);
 void MakeEmpty(Queue Q);
-void Enqueue(ElementType X, Queue Q);
-ElementType Front(Queue Q);
+void Enqueue(ElemType X, Queue Q);
+ElemType Front(Queue Q);
 void Dequeue(Queue Q);
-ElementType FrontAndDequeue(Queue Q);
+ElemType FrontAndDequeue(Queue Q);
 
 #endif
 
@@ -27,5 +36,6 @@ struct QueueRecord{
     int Front;
     int Rear;
     int Size;
-    ElementType *Array;
+    ElemType *Array;
 };
+

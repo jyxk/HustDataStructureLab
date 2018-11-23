@@ -30,11 +30,14 @@
 typedef int ElementType;
 typedef int Status;
 typedef int BOOL;
+
 struct TreeNode;
 struct BinTree;
+struct TreeSet;
 
 typedef struct TreeNode *PtrToNode;
 typedef struct BinTree  *PtrToTree;
+typedef struct TreeSet *PtrToSet;
 
 //the struct of Binary tree
 typedef struct TreeNode {
@@ -52,8 +55,18 @@ typedef struct BinTree {
 } BinTree;
 
 typedef struct TreeSet {
+    int num;
     PtrToTree head;
 } TreeSet;
+
+typedef struct BinTreeModel {
+    int id;
+    int size;
+    int *pre_index;
+    int *pre_defination;
+    int *in_index;
+    int *in_defination;
+} BinTreeModel;
 
 /**
  * @brief Inital a binary tree
@@ -77,7 +90,8 @@ Status DestoryBiTree(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status CreateBiTree(PtrToTree T);
+Status CreateBiTree(PtrToTree T, int *pre_index, int *pre_defination,
+                    int *in_index, int *in_defination, int defination_len);
 
 /**
  * @brief Clear the binary tree T
@@ -221,9 +235,9 @@ Status PostOrderTraverse(PtrToTree T);
 
 /**
  * @brief Traverse the binary tree T by level
- * 
- * @param T 
- * @return Status 
+ *
+ * @param T
+ * @return Status
  */
 Status LevelOrderTraverse(PtrToTree T);
 

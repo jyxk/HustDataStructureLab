@@ -1,15 +1,26 @@
 /*
  * @Author: Xiuxu Jin(jyxk)
  * @Date: 2018-10-24 07:48:14
- * @LastEditors: Xiuxu Jin(jyxk)
- * @LastEditTime: 2018-11-07 09:33:38
+ * @LastEditors: Xiuxu Jin
+ * @LastEditTime: 2018-11-08 18:50:23
  * @Description: the implement of binary tree ADT
  */
 
 #include "BinTree.h"
 #include "queue.h"
 
-int search_array(int * array, int size, int target) {
+static void FreeAllNode(PtrToNode node);
+static int GetDepth(PtrToNode node, int depth);
+
+/**
+ * @brief 
+ * 
+ * @param array 
+ * @param size 
+ * @param target 
+ * @return int 
+ */
+int search_array(const int * array, int size, int target) {
     int i;
     for (i = 0; i < size; i++) {
         if (array[i] == target)
@@ -72,7 +83,29 @@ static void FreeAllNode(PtrToNode node) {
     if (node->right_child != NULL)
         FreeAllNode(node->right_child);
     free(node);
-    return;   
+}
+
+PtrToNode create_tree(int *ind1, int *def1, int *ind2, int *def2,
+                        int max_pos, int min_pos, int *pos) {
+    if (pos == NULL) {
+        int new_pos = 0;
+        return create_tree(ind1, def1, ind2, def2, max_pos, min_pos, &new_pos);
+    }
+
+    int root_pos = search_array(def2 + min_pos, max_pos - min_pos, def1[*pos]);
+    if (root_pos == -1)
+        return NULL;
+    else
+        root_pos += min_pos;
+
+    PtrToNode root = (PtrToNode)malloc(sizeof(TreeNode));
+    root->index = ind1[*pos];
+    root->data = def1[*pos];
+    (*pos)++;
+
+    root->left_child = create_tree(ind1,def1, ind2, def2, root_pos, min_pos, pos);
+    root->right_child = create_tree(ind1, def1, ind2, def2, max_pos, root_pos+1, pos);
+    return root;
 }
 
 /**
@@ -81,7 +114,13 @@ static void FreeAllNode(PtrToNode node) {
  * @param T 
  * @return Status 
  */
-Status CreateBiTree(PtrToTree T) {
+Status CreateBiTree(PtrToTree T, int *pre_index, int *pre_defination,
+                    int *in_index, int *in_defination, int defination_len) {
+    if (defination_len <= 0)
+        return ERROR;
+    T->size = defination_len;
+    T->root = create_tree(pre_index, pre_defination, in_index, in_defination, defination_len, 0, NULL);
+    return OK;
     
 }
 
@@ -205,7 +244,7 @@ void setAssign(PtrToNode node, int index, int value, int *flag) {
  */
 Status Assign(PtrToTree T, int index, int value) {
     int flag = 0;
-    setAssign(T->root, index, value, flag);
+    setAssign(T->root, index, value, &flag);
     if (flag == 1)
         return OK;
     else
@@ -289,7 +328,7 @@ PtrToNode RightChild(PtrToTree T, int index) {
  * @return PtrToNode 
  */
 PtrToNode LeftSibling(PtrToTree T, int index) {
-    PtrToNode parent = Parent(T->root, index);
+    PtrToNode parent = Parent(T, index);
     if (parent->index == index)
         return NULL;
     else
@@ -304,7 +343,7 @@ PtrToNode LeftSibling(PtrToTree T, int index) {
  * @return PtrToNode 
  */
 PtrToNode RightSibling(PtrToTree T, int index) {
-    PtrToNode parent = Parent(T->root, index);
+    PtrToNode parent = Parent(T, index);
     if (parent->index == index)
         return NULL;
     else    
@@ -365,7 +404,7 @@ Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C) {
  * @return int 
  */
 static int search_binary_tree(PtrToNode node, int index) {
-    if (node = NULL)
+    if (node == NULL)
         return 0;
     if (node->index == index)
         return 1;

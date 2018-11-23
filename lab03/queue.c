@@ -1,3 +1,12 @@
+/*
+ * @Author: Xiuxu Jin(jyxk)
+ * @Date: 2018-11-16 23:29:40
+ * @LastEditors: Xiuxu Jin
+ * @LastEditTime: 2018-11-18 09:39:21
+ * @Description: file content
+ * @Email: jyxking007@gmail.com
+ */
+
 #include "queue.h"
 /**
  * @brief Is the queue empty
@@ -39,7 +48,7 @@ Queue CreateQueue(int MaxElements) {
         return NULL;
     }
     
-    Q->Array = malloc(sizeof(ElementType) * MaxElements);
+    Q->Array = malloc(sizeof(ElemType) * MaxElements);
 
     if(Q->Array == NULL) {
         printf("Out of space!\n");
@@ -93,8 +102,8 @@ static int Succ(int Value, Queue Q){
  * @param X 
  * @param Q 
  */
-void Enqueue(ElementType X, Queue Q){
-    if(IsFull(Q)) {
+void Enqueue(ElemType X, Queue Q){
+    if(IsQueueFull(Q)) {
         printf("Full queue");
         return ;
     }
@@ -109,9 +118,9 @@ void Enqueue(ElementType X, Queue Q){
  * @brief get the front of the Q
  * 
  * @param Q 
- * @return ElementType 
+ * @return ElemType
  */
-ElementType Front(Queue Q) {
+ElemType Front(Queue Q) {
     return Q->Array[Q->Front];
 }
 
@@ -121,8 +130,8 @@ ElementType Front(Queue Q) {
  * @param Q 
  */
 void Dequeue(Queue Q) {
-    if(IsEmpty(Q))
-        Error("Empty queue");
+    if(IsQueueEmpty(Q))
+        printf("Empty queue!\n");
     else {
         Q->Size--;
         Q->Front = Succ(Q->Front, Q);
@@ -133,10 +142,10 @@ void Dequeue(Queue Q) {
  * @brief get the front and dequeue
  * 
  * @param Q 
- * @return ElementType 
+ * @return ElemType
  */
-ElementType FrontAndDequeue(Queue Q) {
-    ElementType front = Front(Q);
+ElemType FrontAndDequeue(Queue Q) {
+    ElemType front = Front(Q);
     Dequeue(Q);
     return front;
 }
