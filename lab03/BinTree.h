@@ -27,6 +27,9 @@
 #define IN_ORDER   1
 #define POST_ORDER 2
 
+#define NOT_FOUND 0
+#define NOT_EXIST 0x1234
+
 typedef int ElementType;
 typedef int Status;
 typedef int BOOL;

@@ -191,13 +191,18 @@ PtrToNode Root(PtrToTree T) {
  */
 int getValue(PtrToNode node, int index) {
     if (node == NULL)
-        return 0;
+        return NOT_FOUND;
     if (node->index == index)
         return node->data;
     else {
         int left = getValue(node->left_child, index);
         int right = getValue(node->right_child, index);
-        return left|right;
+        if (left == NOT_FOUND && right == NOT_FOUND)
+            return NOT_FOUND;
+        else if (left != NOT_FOUND)
+            return left;
+        else
+            return right;
     }
 }
 
@@ -210,7 +215,7 @@ int getValue(PtrToNode node, int index) {
  */
 Status Value(PtrToTree T, int index) {
     if (T->root == NULL)
-        return 0;
+        return NOT_EXIST;
     return getValue(T->root, index);
 }
  
