@@ -20,7 +20,7 @@ void PrintMenu(void) {
     printf("|      5.IsBitreeEmpty          6.BiTreeDepth         |\n");
     printf("|      7.Root                   8.Value               |\n");
     printf("|      9.Assign                10.Parent              |\n");
-    printf("|     11.LeftChild             12.RightChild          |\n");
+    printf("|     11.getChild                      |\n");
     printf("|     13.LeftSibling           14.RightSibling        |\n");
     printf("|     15.InsertChild           16.DeleteChild         |\n");
     printf("|     17.PreOrderTraverse      18.InOrderTraverse     |\n");
@@ -289,11 +289,88 @@ int main(void) {
                 break;
 
             case 9:
+                printf("/**\n * @brief assign the index node in T with value\n * \n * @param T \n * @param index \n * @param value \n * @return Status \n */\n");
+                printf("Now please input the tree id , the index and the value!\n");
+                scanf("%d%d%d", &tree_id, &node_index, &value);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
 
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (Assign(tree, node_index, value) == OK)
+                        printf("Assign the node %d succeed!\n", node_index);
+                    else
+                        printf("Error!The node %d is not exist!\n", node_index);
+                }
                 break;
+
             case 10:
+                printf("/**\n * @brief get parent node of index in T\n * \n * @param T \n * @param index \n * @return PtrToNode \n */\n");
+                printf("Now please input the tree id and the index!\n");
+                scanf("%d%d", &tree_id, &node_index);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    PtrToNode parent = Parent(tree, node_index);
+                    if (parent == NULL)
+                        printf("The parent is not found!Maybe you input a root node?\n");
+                    else {
+                        printf("The parent of node %d is :\n", node_index);
+                        printf("Index:%d, Value:%d\n", parent->index, parent->data);
+                    }
+                }
                 break;
+
             case 11:
+                printf("/**\n * @brief Get the Child object\n * \n * @param node \n * @param index \n * @param LorR \n * @return PtrToNode \n */\n");
+                printf("Now please input the tree id , the index and the child(0 for left and 1 for right)!\n");
+                scanf("%d%d%d", &tree_id, &node_index, &LorR);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (LorR == LEFT) {
+                        PtrToNode left_child = LeftChild(tree, node_index);
+                        if (left_child == NULL)
+                            printf("The left child is not exist!\n");
+                        else {
+                            printf("The left child of node %d\n", node_index);
+                            printf("Key: %d\n", left_child->index);
+                            printf("Value: %d\n", left_child->data);
+                        }
+                    }
+                    else {
+                        PtrToNode right_child = RightChild(tree, node_index);
+                        if (right_child == NULL)
+                            printf("The right child is not exist!\n");
+                        else {
+                            printf("The right child of node %d\n", node_index);
+                            printf("Key: %d\n", right_child->index);
+                            printf("Value: %d\n", right_child->data);
+                        }
+                    }
+                }
                 break;
             case 12:
                 break;
