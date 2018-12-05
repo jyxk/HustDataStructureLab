@@ -58,7 +58,6 @@ typedef struct BinTree {
 } BinTree;
 
 typedef struct TreeSet {
-    int num;
     PtrToTree head;
 } TreeSet;
 
@@ -66,9 +65,9 @@ typedef struct BinTreeModel {
     int id;
     int size;
     int *pre_index;
-    int *pre_defination;
+    int *pre_definition;
     int *in_index;
-    int *in_defination;
+    int *in_definition;
 } BinTreeModel;
 
 /**
@@ -93,8 +92,8 @@ Status DestoryBiTree(PtrToTree T);
  * @param T 
  * @return Status 
  */
-Status CreateBiTree(PtrToTree T, int *pre_index, int *pre_defination,
-                    int *in_index, int *in_defination, int defination_len);
+Status CreateBiTree(PtrToTree T, int *pre_index, int *pre_definition,
+                    int *in_index, int *in_definition, int definition_len);
 
 /**
  * @brief Clear the binary tree T

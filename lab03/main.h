@@ -24,7 +24,7 @@ void PrintMenu(void);
  */
 
 
-Status LoadData(PtrToSet TreeSet);
+void LoadData(PtrToSet TreeSet);
 /*
  * Function Name: LoadData
  * Parameter: PtrToSet
@@ -32,7 +32,7 @@ Status LoadData(PtrToSet TreeSet);
  * Use: load data
  */
 
-Status SaveData(PtrToSet TreeSet);
+void SaveData(PtrToSet TreeSet);
 /*
  * Function Name: SaveData
  * Parameter: PtrToSet

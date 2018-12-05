@@ -65,7 +65,8 @@ Status InitBiTree(PtrToTree T) {
  * @return Status 
  */
 Status DestoryBiTree(PtrToTree T) {
-    FreeAllNode(T->root);
+    if (T != NULL)
+        FreeAllNode(T->root);
     return OK;
 }
 

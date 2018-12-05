@@ -29,7 +29,7 @@ ElemType FrontAndDequeue(Queue Q);
 
 //place in implementation file
 //Queue implementation is a dynamically allocated array
-#define MinQueueSize (50)
+#define MinQueueSize (5)
 
 struct QueueRecord{
     int Capacity;

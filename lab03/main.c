@@ -20,11 +20,11 @@ void PrintMenu(void) {
     printf("|      5.IsBitreeEmpty          6.BiTreeDepth         |\n");
     printf("|      7.Root                   8.Value               |\n");
     printf("|      9.Assign                10.Parent              |\n");
-    printf("|     11.getChild                      |\n");
-    printf("|     13.LeftSibling           14.RightSibling        |\n");
-    printf("|     15.InsertChild           16.DeleteChild         |\n");
-    printf("|     17.PreOrderTraverse      18.InOrderTraverse     |\n");
-    printf("|     19.PostOrderTraverse     20.LevelOrderTraverse  |\n");
+    printf("|     11.getChild              12.LeftSibling         |\n");
+    printf("|     13.RightSibling          14.InsertChild         |\n");
+    printf("|     15.DeleteChild           16.PreOrderTraverse    |\n");
+    printf("|     17.InOrderTraverse       18.PostOrderTraverse   |\n");
+    printf("|     19.LevelOrderTraverse    20.ShowTreeList        |\n");
     printf("|                                                     |\n");
     printf("| Enter the num of the function that you wanna see.   |\n");
     printf("| Enter 0 to exit this demo system.                   |\n");
@@ -42,23 +42,106 @@ void PrintMenu(void) {
  * @param TreeSet
  * @return
  */
-Status LoadData(PtrToSet TreeSet) {
+void LoadData(PtrToSet TreeSet) {
     FILE *fp = fopen("BinaryTreeDataBase", "rb");
     if (fp == NULL)
-        return ERROR;
+        return ;
 
     BinTree trees, *a_tree = &trees;
     a_tree->next = NULL;
 
     int size = 0xff;
     while(1) {
-        BinTreeModel defination;
+        BinTreeModel definition;
         PtrToTree tmp = NULL;
+        size = fread(&definition, sizeof(BinTreeModel), 1, fp);
+        if (size == 0)
+            break;
+
+        tmp = (BinTree *)malloc(sizeof(BinTree));
+        InitBiTree(tmp);
+
+        if (definition.size != 0) {
+            definition.pre_index = (int *)malloc(sizeof(int) * definition.size);
+            definition.pre_definition = (int *)malloc(sizeof(int) * definition.size);
+            definition.in_index = (int *)malloc(sizeof(int) * definition.size);
+            definition.in_definition = (int *)malloc(sizeof(int) * definition.size);
+            fread(definition.pre_index, sizeof(int) * definition.size, 1, fp);
+            fread(definition.pre_definition, sizeof(int) * definition.size, 1, fp);
+            fread(definition.in_index, sizeof(int) * definition.size, 1, fp);
+            fread(definition.in_definition, sizeof(int) * definition.size, 1, fp);
+            CreateBiTree(tmp, definition.pre_index, definition.pre_definition, definition.in_index, definition.in_definition, definition.size);
+        }
+
+        tmp->id = definition.id;
+        tmp->next = NULL;
+        a_tree->next = tmp;
+        a_tree = a_tree->next;
+    }
+
+    TreeSet->head = trees.next;
+
+    fclose(fp);
+}
+
+
+/**
+ *
+ * @param node
+ * @param order
+ * @param indexs
+ * @param definition
+ * @param pos
+ */
+void Traverse(PtrToNode node, int order, int *indexs, int *definition, int *pos) {
+    if (node == NULL)
+        return;
+    if (pos == NULL) {
+        int new_pos = 0;
+        Traverse(node, order, indexs, definition, &new_pos);
+        return;
+    }
+    if (order == PRE_ORDER) {
+        indexs[*pos] = node->index;
+        definition[*pos] = node->data;
+        (*pos)++;
+        Traverse(node->left_child, order, indexs, definition, pos);
+        Traverse(node->right_child, order, indexs, definition, pos);
+    }
+    else if (order == IN_ORDER) {
+        Traverse(node->left_child, order, indexs, definition, pos);
+        indexs[*pos] = node->index;
+        definition[*pos] = node->data;
+        (*pos)++;
+        Traverse(node->right_child, order, indexs, definition, pos);
     }
 }
 
-Status SaveData(PtrToSet TreeSet) {
+void SaveData(PtrToSet TreeSet) {
+    FILE *fp = fopen("BinaryTreeDataBase", "wb");
+    if (fp == NULL)
+        return;
 
+    PtrToTree a_tree = TreeSet->head;
+    while (a_tree != NULL) {
+        BinTreeModel definition;
+        definition.id = a_tree->id;
+        definition.size = a_tree->size;
+        definition.pre_index = (int *)malloc(sizeof(int) * definition.size);
+        definition.pre_definition = (int *)malloc(sizeof(int) * definition.size);
+        definition.in_index = (int *)malloc(sizeof(int) * definition.size);
+        definition.in_definition = (int *)malloc(sizeof(int) * definition.size);
+        Traverse(a_tree->root, PRE_ORDER, definition.pre_index, definition.pre_definition, NULL);
+        Traverse(a_tree->root, IN_ORDER, definition.in_index, definition.in_definition, NULL);
+        fwrite(&definition, sizeof(BinTreeModel), 1, fp);
+        fwrite(definition.pre_index, sizeof(int) * definition.size, 1 ,fp);
+        fwrite(definition.pre_definition, sizeof(int) * definition.size, 1, fp);
+        fwrite(definition.in_index, sizeof(int) * definition.size, 1, fp);
+        fwrite(definition.in_definition, sizeof(int) * definition.size, 1, fp);
+        a_tree = a_tree->next;
+    }
+
+    fclose(fp);
 }
 
 int main(void) {
@@ -106,11 +189,16 @@ int main(void) {
                 printf("Now, please enter the tree id: ");
                 scanf("%d", &tree_id);
 
+                if (tree_set.head == NULL) {
+                    printf("There is no tree to destroy!\n");
+                    break;
+                }
                 tree = tree_set.head;
 
                 if (tree->id == tree_id) {
                     tree_set.head = tree_set.head->next;
-                    DestoryBiTree(&tree_set.head);
+
+                    DestoryBiTree(tree);
                     printf("Succeed!Tree %d has been destoried!\n", tree_id);
                     break;
                 }
@@ -123,7 +211,7 @@ int main(void) {
                 }
 
                 if (tree == NULL) {
-                    printf("Destroy error!The tree %d is not exist!");
+                    printf("Destroy error!The tree %d is not exist!", tree_id);
                 }
                 else {
                     PtrToTree temp = tree->next;
@@ -152,18 +240,18 @@ int main(void) {
                 }
                 else {
                     int *pre_index = (int *)malloc(sizeof(int)*node_num);
-                    int *pre_defination = (int *)malloc(sizeof(int)*node_num);
+                    int *pre_definition = (int *)malloc(sizeof(int)*node_num);
                     int *in_index = (int *)malloc(sizeof(int)*node_num);
-                    int *in_defination = (int *)malloc(sizeof(int)*node_num);
+                    int *in_definition = (int *)malloc(sizeof(int)*node_num);
 
                     printf("Please input the pre order of the tree:(index value)\n");
                     for (int i = 0; i < node_num; i++)
-                        scanf("%d%d", &pre_index[i], &pre_defination[i]);
+                        scanf("%d%d", &pre_index[i], &pre_definition[i]);
                     printf("Please input the in order of the tree:(index value)\n");
                     for (int i = 0; i < node_num; i++)
-                        scanf("%d%d", &in_index[i], &in_defination[i]);
+                        scanf("%d%d", &in_index[i], &in_definition[i]);
                     BinTree new;
-                    CreateBiTree(&new, pre_index, pre_defination, in_index, in_defination, node_num);
+                    CreateBiTree(&new, pre_index, pre_definition, in_index, in_definition, node_num);
                     printf("Create the tree %d succeed!\n", tree_id);
                     new.id = tree_id;
                     new.next = tree_set.head;
@@ -238,7 +326,7 @@ int main(void) {
             case 7:
                 printf("/**\n * @brief get the root of T and return it \n * \n * @param T \n * @return PtrToNode \n */\n");
                 printf("Now please input the tree id: ");
-                scanf("%d", tree_id);
+                scanf("%d", &tree_id);
                 tree = tree_set.head;
                 while (tree != NULL) {
                     if (tree_id == tree->id)
@@ -281,9 +369,9 @@ int main(void) {
                     if (value == NOT_EXIST)
                         printf("The tree is empty!\n");
                     else if (value == NOT_FOUND)
-                        printf("The node %d is not exist!", &node_index);
+                        printf("The node %d is not exist!", node_index);
                     else {
-                        printf("The value of the node %d is %d!\n", &node_index, value);
+                        printf("The value of the node %d is %d!\n", node_index, value);
                     }
                 }
                 break;
@@ -372,35 +460,239 @@ int main(void) {
                     }
                 }
                 break;
+
             case 12:
+                printf("/**\n * @brief get the left sibing of index in T\n * \n * @param T \n * @param index \n * @return PtrToNode \n */\n");
+                printf("Now please input the tree id and the index!\n");
+                scanf("%d%d", &tree_id, &node_index);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    PtrToNode left_sibling = LeftSibling(tree, node_index);
+                    if (left_sibling == NULL) {
+                        printf("Error, the left sibling not found!\n");
+                    }
+                    else {
+                        printf("The left sibling of node %d\n", node_index);
+                        printf("Index: %d\n", left_sibling->index);
+                        printf("Value: %d\n", left_sibling->data);
+                    }
+                }
+
+                printf("\n");
                 break;
+
             case 13:
+                printf("/**\n * @brief get the right sibing of index in T\n * \n * @param T \n * @param index \n * @return PtrToNode \n */\n");
+                printf("Now please input the tree id and the index!\n");
+                scanf("%d%d", &tree_id, &node_index);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    PtrToNode right_sibling = RightSibling(tree, node_index);
+                    if (right_sibling == NULL) {
+                        printf("Error, the right sibling not found!\n");
+                    }
+                    else {
+                        printf("The left sibling of node %d\n", node_index);
+                        printf("Index: %d\n", right_sibling->index);
+                        printf("Value: %d\n", right_sibling->data);
+                    }
+                }
+
+                printf("\n");
                 break;
+
             case 14:
+                printf("/**\n * @brief insert LorR child to p\n * \n * @param T \n * @param p \n * @param LorR \n * @return Status \n */\n");
+                printf("Now please input the tree id , the index , LorR and the child tree id\n");
+
+                int child_id;
+                scanf("%d%d%d%d", &tree_id, &node_index, &LorR, &child_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                    break;
+                }
+
+                PtrToTree C = tree_set.head;
+
+                if (C->id == child_id) {
+                    if (InsertChild(tree, node_index, LorR, C) == OK) {
+                        printf("Insert child tree %d succeed!\n", child_id);
+                        tree_set.head = tree_set.head->next;
+                        free(C);
+                    }
+                    else {
+                        printf("Insert error, please check your input!\n");
+                    }
+                    printf("\n");
+                    break;
+                }
+                if (InsertChild(tree, node_index, LorR, C->next) == OK) {
+                    printf("Insert child tree %d succeed!\n", child_id);
+                    PtrToTree tmp = C->next;
+                    C->next = C->next->next;
+                    free(tmp);
+                }
+                else {
+                    printf("Insert error, please check yout input!\n");
+                }
+                printf("\n");
+
                 break;
+
             case 15:
+                printf("/**\n * @brief delete LorR child of p\n * \n * @param T \n * @param p \n * @param LorR \n * @return Status \n */\n");
+                printf("Now please input the tree id , the index and LorR:\n");
+
+                scanf("%d%d%d", &tree_id, &node_index, &LorR);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                    break;
+                }
+                else {
+                    if (DeleteChild(tree, node_index, LorR) == OK) {
+                        printf("Delete child tree succeed!\n");
+                    }
+                    else {
+                        printf("Delete error, please check your input!\n");
+                    }
+                }
                 break;
+
             case 16:
+                printf("/**\n * @brief Traverse the binary tree T by preorder\n * \n * @param T \n * @return Status \n */\n");
+                printf("Now please input the tree id: ");
+                scanf("%d", &tree_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The Tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (PreOrderTraverse(tree) == ERROR) {
+                        printf("Error, this binary tree is empty!\n");
+                    }
+                }
                 break;
+
             case 17:
+                printf("/**\n * @brief Traverse the binary tree T by inorder\n * \n * @param T \n * @return Status \n */\n");
+                printf("Now please input the tree id: ");
+                scanf("%d", &tree_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The Tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (InOrderTraverse(tree) == ERROR) {
+                        printf("ERROR, this binary is empty!\n");
+                    }
+                }
                 break;
+
             case 18:
+                printf("/**\n * @brief Traverse the binary tree T by postorder\n * \n * @param T \n * @return Status \n */\n");
+                printf("Now please input the tree id: ");
+                scanf("%d", &tree_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The Tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (PostOrderTraverse(tree) == ERROR) {
+                        printf("ERROR, this binary is empty!\n");
+                    }
+                }
                 break;
+
             case 19:
+                printf("/**\n * @brief Traverse the binary tree T by level\n *\n * @param T\n * @return Status\n */\n");
+                printf("Now please input the tree id: ");
+                scanf("%d", &tree_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The Tree %d is not exist!\n\n", tree_id);
+                }
+                else {
+                    if (LevelOrderTraverse(tree) == ERROR) {
+                        printf("Error, this tree is empty!\n");
+                    }
+                }
                 break;
+
             case 20:
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    printf("Id: %d\n", tree->id);
+                    tree = tree->next;
+                }
+                printf("\n");
                 break;
-            case 21:
-                break;
-            case 22:
-                break;
-            case 23:
-                break;
+
             case 0:
+                printf("Thanks for using!\n");
                 break;
+
             default:
+                printf("You entered the wrong num.!\n");
                 break;
 
         }
+        SaveData(&tree_set);
     }
+    return 0;
 }
