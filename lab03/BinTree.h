@@ -220,6 +220,13 @@ Status DeleteChild(PtrToTree T, int index, int LorR);
 Status PreOrderTraverse(PtrToTree T);
 
 /**
+ *
+ * @param T
+ * @return
+ */
+Status PreOrderTraverseNoRec(PtrToTree T);
+
+/**
  * @brief Traverse the binary tree T by inorder
  * 
  * @param T 

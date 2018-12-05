@@ -513,6 +513,32 @@ Status PreOrderTraverse(PtrToTree T) {
 }
 
 /**
+ *
+ * @param T
+ * @return
+ */
+Status PreOrderTraverseNoRec(PtrToTree T) {
+    if (IsBiTreeEmpty(T))
+        return ERROR;
+
+    PtrToNode p = T->root;
+    PtrToNode stack[30];
+    int num = 0;
+    while (p != NULL || num > 0) {
+        while (p != NULL) {
+            printf("Index: %d Value: %d\n", p->index, p->data);
+            stack[num++] = p;
+            p = p->left_child;
+        }
+        num--;
+        p = stack[num];
+        p = p->right_child;
+    }
+    printf("\n");
+    return OK;
+}
+
+/**
  * @brief Traverse the binary tree T by inorder
  * 
  * @param T 

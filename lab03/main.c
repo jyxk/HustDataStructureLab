@@ -605,7 +605,7 @@ int main(void) {
                     printf("ERROR! The Tree %d is not exist!\n\n", tree_id);
                 }
                 else {
-                    if (PreOrderTraverse(tree) == ERROR) {
+                    if (PreOrderTraverseNoRec(tree) == ERROR) {
                         printf("Error, this binary tree is empty!\n");
                     }
                 }

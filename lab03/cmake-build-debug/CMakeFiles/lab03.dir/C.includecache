@@ -20,10 +20,6 @@ stdlib.h
 string.h
 -
 
-/home/jyxk/Code/HustDataStructureLab/lab03/queue.c
-queue.h
-/home/jyxk/Code/HustDataStructureLab/lab03/queue.h
-
 /home/jyxk/Code/HustDataStructureLab/lab03/queue.h
 BinTree.h
 /home/jyxk/Code/HustDataStructureLab/lab03/BinTree.h
