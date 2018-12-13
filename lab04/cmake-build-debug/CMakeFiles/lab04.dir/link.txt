@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/lab04.dir/main.c.o CMakeFiles/lab04.dir/Graph.c.o CMakeFiles/lab04.dir/queue.c.o  -o lab04 
