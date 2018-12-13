@@ -55,6 +55,7 @@ void free_child(PtrToNode node) {
 Status InitBiTree(PtrToTree T) {
     T->size = 0;
     T->root = NULL;
+    T->insert_node = NOT_EXIST;
     return OK;
 }
 
@@ -134,6 +135,7 @@ Status CreateBiTree(PtrToTree T, int *pre_index, int *pre_defination,
 Status ClearBiTree(PtrToTree T) {
     T->size = 0;
     FreeAllNode(T->root);
+    T->root = NULL;
     return OK;
 }
 
@@ -230,7 +232,7 @@ Status Value(PtrToTree T, int index) {
 void setAssign(PtrToNode node, int index, int value, int *flag) {
     if (node == NULL)
         return ;
-    if (node->index == value) {
+    if (node->index == index) {
         node->data = value;
         *flag = 1;
     }
@@ -334,8 +336,10 @@ PtrToNode RightChild(PtrToTree T, int index) {
  * @return PtrToNode 
  */
 PtrToNode LeftSibling(PtrToTree T, int index) {
+    if (Root(T)->index == index)
+        return NULL;
     PtrToNode parent = Parent(T, index);
-    if (parent->index == index)
+    if (parent == NULL || parent->left_child->index == index)
         return NULL;
     else
         return parent->left_child;
@@ -349,8 +353,10 @@ PtrToNode LeftSibling(PtrToTree T, int index) {
  * @return PtrToNode 
  */
 PtrToNode RightSibling(PtrToTree T, int index) {
+    if (Root(T)->index == index)
+        return NULL;
     PtrToNode parent = Parent(T, index);
-    if (parent->index == index)
+    if (parent == NULL || parent->right_child->index == index)
         return NULL;
     else    
         return parent->right_child;
@@ -400,6 +406,26 @@ Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C) {
     T->size += C->size;
     T->root = TreeInsertChild(T->root, index, LorR, C->root);
     return OK;
+}
+
+Status NewInsertChild(PtrToTree T, PtrToNode target, int LorR, PtrToTree C) {
+    return InsertChild(T, target->index, LorR, C);
+}
+
+PtrToNode find_node(PtrToNode node, int node_index) {
+
+    if (node == NULL)
+        return NULL;
+    if (node->index == node_index)
+        return node;
+    PtrToNode target = find_node(node->left_child, node_index);
+    if (target)
+        return target;
+    return find_node(node->right_child, node_index);
+}
+
+PtrToNode FindNode(PtrToTree T, int node_index) {
+    return find_node(T->root, node_index);
 }
 
 /**

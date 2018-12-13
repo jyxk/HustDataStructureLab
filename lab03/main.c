@@ -25,6 +25,7 @@ void PrintMenu(void) {
     printf("|     15.DeleteChild           16.PreOrderTraverse    |\n");
     printf("|     17.InOrderTraverse       18.PostOrderTraverse   |\n");
     printf("|     19.LevelOrderTraverse    20.ShowTreeList        |\n");
+    printf("|     21.NewInsertChild                               |\n");
     printf("|                                                     |\n");
     printf("| Enter the num of the function that you wanna see.   |\n");
     printf("| Enter 0 to exit this demo system.                   |\n");
@@ -74,6 +75,7 @@ void LoadData(PtrToSet TreeSet) {
         }
 
         tmp->id = definition.id;
+        tmp->insert_node = definition.insert_index;
         tmp->next = NULL;
         a_tree->next = tmp;
         a_tree = a_tree->next;
@@ -127,6 +129,7 @@ void SaveData(PtrToSet TreeSet) {
         BinTreeModel definition;
         definition.id = a_tree->id;
         definition.size = a_tree->size;
+        definition.insert_index = a_tree->insert_node;
         definition.pre_index = (int *)malloc(sizeof(int) * definition.size);
         definition.pre_definition = (int *)malloc(sizeof(int) * definition.size);
         definition.in_index = (int *)malloc(sizeof(int) * definition.size);
@@ -235,10 +238,10 @@ int main(void) {
                     tree = tree->next;
                 }
 
-                if (tree != NULL) {
+                if (tree != NULL && tree->root != NULL) {
                     printf("Create ERROR! The Tree %d is already exist!\n", tree_id);
                 }
-                else {
+                else if (tree != NULL && tree->root == NULL) {
                     int *pre_index = (int *)malloc(sizeof(int)*node_num);
                     int *pre_definition = (int *)malloc(sizeof(int)*node_num);
                     int *in_index = (int *)malloc(sizeof(int)*node_num);
@@ -250,12 +253,15 @@ int main(void) {
                     printf("Please input the in order of the tree:(index value)\n");
                     for (int i = 0; i < node_num; i++)
                         scanf("%d%d", &in_index[i], &in_definition[i]);
-                    BinTree new;
-                    CreateBiTree(&new, pre_index, pre_definition, in_index, in_definition, node_num);
+                    //BinTree new;
+                    CreateBiTree(tree, pre_index, pre_definition, in_index, in_definition, node_num);
                     printf("Create the tree %d succeed!\n", tree_id);
-                    new.id = tree_id;
-                    new.next = tree_set.head;
-                    tree_set.head = &new;
+                    //new.id = tree_id;
+                    //new.next = tree_set.head;
+                    //tree_set.head = &new;
+                }
+                else {
+                    printf("ERROR the tree is not exist!\n");
                 }
                 printf("\n");
                 break;
@@ -274,12 +280,11 @@ int main(void) {
                 if (tree == NULL) {
                     printf("Clear ERROR! The Tree %d is not exist!\n", tree_id);
                 }
-                else {
-                    if (ClearBiTree(tree) == OK)
-                        printf("The tree %d has been cleared!\n", tree_id);
-                    else
-                        printf("ERROR! The tree %d is already empty!\n", tree_id);
-                }
+                else if (IsBiTreeEmpty(tree))
+                    printf("ERROR! The tree %d is already empty!\n", tree_id);
+                else if (ClearBiTree(tree) == OK)
+                    printf("The tree %d has been cleared!\n", tree_id);
+
 
                 break;
             case 5:
@@ -345,6 +350,7 @@ int main(void) {
                     else {
                         printf("The root of the tree %d:\n", tree_id);
                         printf("index: %d, value: %d", root->index, root->data);
+                        tree->insert_node = root->index;
                     }
                 }
 
@@ -412,6 +418,9 @@ int main(void) {
                 if (tree == NULL) {
                     printf("ERROR! The tree %d is not exist!\n\n", tree_id);
                 }
+                else if (Value(tree, node_index) == NOT_FOUND) {
+                    printf("ERROR!The node %d is not in this tree!\n", node_index);
+                }
                 else {
                     PtrToNode parent = Parent(tree, node_index);
                     if (parent == NULL)
@@ -419,6 +428,7 @@ int main(void) {
                     else {
                         printf("The parent of node %d is :\n", node_index);
                         printf("Index:%d, Value:%d\n", parent->index, parent->data);
+                        tree->insert_node = parent->index;
                     }
                 }
                 break;
@@ -437,25 +447,30 @@ int main(void) {
                 if (tree == NULL) {
                     printf("ERROR! The tree %d is not exist!\n\n", tree_id);
                 }
+                else if (Value(tree, node_index) == NOT_FOUND) {
+                    printf("ERROR! The node %d is not in this tree!\n", node_index);
+                }
                 else {
                     if (LorR == LEFT) {
                         PtrToNode left_child = LeftChild(tree, node_index);
                         if (left_child == NULL)
-                            printf("The left child is not exist!\n");
+                            printf("The left child is not exist! Or the node %d is not exist!\n", node_index);
                         else {
                             printf("The left child of node %d\n", node_index);
                             printf("Key: %d\n", left_child->index);
                             printf("Value: %d\n", left_child->data);
+                            tree->insert_node = left_child->index;
                         }
                     }
                     else {
                         PtrToNode right_child = RightChild(tree, node_index);
                         if (right_child == NULL)
-                            printf("The right child is not exist!\n");
+                            printf("The right child is not exist! Or the node %d is not exist!\n", node_index);
                         else {
                             printf("The right child of node %d\n", node_index);
                             printf("Key: %d\n", right_child->index);
                             printf("Value: %d\n", right_child->data);
+                            tree->insert_node = right_child->index;
                         }
                     }
                 }
@@ -475,6 +490,9 @@ int main(void) {
                 if (tree == NULL) {
                     printf("ERROR! The tree %d is not exist!\n\n", tree_id);
                 }
+                else if (Value(tree, node_index) == NOT_FOUND) {
+                        printf("ERROR!The node %d is not in this tree!\n", node_index);
+                }
                 else {
                     PtrToNode left_sibling = LeftSibling(tree, node_index);
                     if (left_sibling == NULL) {
@@ -484,8 +502,10 @@ int main(void) {
                         printf("The left sibling of node %d\n", node_index);
                         printf("Index: %d\n", left_sibling->index);
                         printf("Value: %d\n", left_sibling->data);
+                        tree->insert_node = left_sibling->index;
                     }
                 }
+
 
                 printf("\n");
                 break;
@@ -504,17 +524,21 @@ int main(void) {
                 if (tree == NULL) {
                     printf("ERROR! The tree %d is not exist!\n\n", tree_id);
                 }
+                else if (Value(tree, node_index) == NOT_FOUND) {
+                    printf("ERROR!The node %d is not in this tree!\n", node_index);
+                }
                 else {
                     PtrToNode right_sibling = RightSibling(tree, node_index);
                     if (right_sibling == NULL) {
                         printf("Error, the right sibling not found!\n");
-                    }
-                    else {
+                    } else {
                         printf("The left sibling of node %d\n", node_index);
                         printf("Index: %d\n", right_sibling->index);
                         printf("Value: %d\n", right_sibling->data);
+                        tree->insert_node = right_sibling->index;
                     }
                 }
+
 
                 printf("\n");
                 break;
@@ -525,6 +549,7 @@ int main(void) {
 
                 int child_id;
                 scanf("%d%d%d%d", &tree_id, &node_index, &LorR, &child_id);
+
                 tree = tree_set.head;
                 while (tree != NULL) {
                     if (tree_id == tree->id)
@@ -558,7 +583,7 @@ int main(void) {
                     free(tmp);
                 }
                 else {
-                    printf("Insert error, please check yout input!\n");
+                    printf("Insert error, please check your input!\n");
                 }
                 printf("\n");
 
@@ -682,6 +707,55 @@ int main(void) {
                 }
                 printf("\n");
                 break;
+
+            case 21:
+                printf("/**\n * @brief insert LorR child to p\n * \n * @param T \n * @param p \n * @param LorR \n * @return Status \n */\n");
+                printf("Please input the tree id , LorR and the child tree id:\n");
+
+                scanf("%d%d%d", &tree_id, &LorR, &child_id);
+                tree = tree_set.head;
+                while (tree != NULL) {
+                    if (tree_id == tree->id)
+                        break;
+                    tree = tree->next;
+                }
+
+                if (tree == NULL) {
+                    printf("ERROR! The tree %d is not exist!\n\n", tree_id);
+                    break;
+                }
+
+                if (tree->insert_node == NOT_EXIST) {
+                    printf("ERROR! You have not chosen the insert position!\n");
+                    break;
+                }
+
+                PtrToNode insert_node = FindNode(tree, tree->insert_node);
+
+                C = tree_set.head;
+
+                if (C->id == child_id) {
+                    if (NewInsertChild(tree, insert_node, LorR, C) == OK) {
+                        printf("Insert child tree %d succeed!\n", child_id);
+                        tree_set.head = tree_set.head->next;
+                        free(C);
+                    }
+                    else {
+                        printf("Insert error, please check your input!\n");
+                    }
+                    printf("\n");
+                    break;
+                }
+                if (NewInsertChild(tree, insert_node, LorR, C->next) == OK) {
+                    printf("Insert child tree %d succeed!\n", child_id);
+                    PtrToTree tmp = C->next;
+                    C->next = C->next->next;
+                    free(tmp);
+                }
+                else {
+                    printf("Insert error, please check your input!\n");
+                }
+                printf("\n");
 
             case 0:
                 printf("Thanks for using!\n");

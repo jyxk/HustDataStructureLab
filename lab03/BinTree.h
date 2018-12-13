@@ -55,6 +55,7 @@ typedef struct BinTree {
     int size;
     PtrToNode root;
     PtrToTree next;
+    int insert_node;
 } BinTree;
 
 typedef struct TreeSet {
@@ -68,6 +69,7 @@ typedef struct BinTreeModel {
     int *pre_definition;
     int *in_index;
     int *in_definition;
+    int insert_index;
 } BinTreeModel;
 
 /**
@@ -200,6 +202,10 @@ PtrToNode RightSibling(PtrToTree T, int index);
  * @return Status 
  */
 Status InsertChild(PtrToTree T, int index, int LorR, PtrToTree C);
+
+Status NewInsertChild(PtrToTree T, PtrToNode target, int LorR, PtrToTree C);
+
+PtrToNode FindNode(PtrToTree T, int node_index);
 
 /**
  * @brief delete LorR child of p

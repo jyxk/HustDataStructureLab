@@ -6,13 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/jyxk/Code/HustDataStructureLab/lab03/BinTree.c
-BinTree.h
-/home/jyxk/Code/HustDataStructureLab/lab03/BinTree.h
-queue.h
-/home/jyxk/Code/HustDataStructureLab/lab03/queue.h
-
-/home/jyxk/Code/HustDataStructureLab/lab03/BinTree.h
+.././BinTree.h
 stdio.h
 -
 stdlib.h
@@ -20,7 +14,17 @@ stdlib.h
 string.h
 -
 
-/home/jyxk/Code/HustDataStructureLab/lab03/queue.h
+.././main.h
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
 BinTree.h
-/home/jyxk/Code/HustDataStructureLab/lab03/BinTree.h
+.././BinTree.h
+
+/home/jyxk/Code/HustDataStructureLab/lab03/main.c
+main.h
+-
 
