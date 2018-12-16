@@ -15,6 +15,9 @@
 #define OK 0
 #define ERROR 1
 
+#define NOT_FOUND 0xff
+#define NOT_EXIST 0xab
+
 #define DIRECTED_GRAPH 0
 #define UNDIRECTED_GRAPH 1
 #define DIRECTED_NET 2
@@ -59,6 +62,16 @@ typedef struct GraphSet {
     PtrToGraph head;
 } GraphSet;
 
+typedef struct Arc {
+    int src_index;
+    int dst_index;
+} Arc;
+
+typedef struct Vertex {
+    int index;
+    ElementType value;
+} Vertex;
+
 /**
  *
  * @param G
@@ -85,7 +98,7 @@ Status DestroyGraph(PtrToGraph G);
  * @param u
  * @return
  */
-int LocateVex(PtrToGraph G, PtrToVertex u);
+int LocateVex(PtrToGraph G, int value);
 
 /**
  *
@@ -93,7 +106,7 @@ int LocateVex(PtrToGraph G, PtrToVertex u);
  * @param v
  * @return
  */
-int GetVex(PtrToGraph G, PtrToVertex v);
+int GetVex(PtrToGraph G, int index);
 
 /**
  *
@@ -102,7 +115,7 @@ int GetVex(PtrToGraph G, PtrToVertex v);
  * @param value
  * @return
  */
-Status PutVex(PtrToGraph G, PtrToVertex v, int value);
+Status PutVex(PtrToGraph G, int index, int value);
 
 /**
  *
@@ -111,7 +124,7 @@ Status PutVex(PtrToGraph G, PtrToVertex v, int value);
  * @param weight
  * @return
  */
-Status SetWeight(PtrToGraph G, PtrToArc target_arc, int weight);
+Status SetWeight(PtrToGraph G, Arc target_arc, int weight);
 
 /**
  *
@@ -119,32 +132,7 @@ Status SetWeight(PtrToGraph G, PtrToArc target_arc, int weight);
  * @param v
  * @return
  */
-PtrToVertex FristAdjVex(PtrToGraph G, PtrToVertex v);
-
-/**
- *
- * @param G
- * @param v
- * @param w
- * @return
- */
-PtrToVertex NextAdjVex(PtrToGraph G, PtrToVertex v, PtrToVertex w);
-
-/**
- *
- * @param G
- * @param v
- * @return
- */
-Status InsertVex(PtrToGraph G, PtrToVertex v);
-
-/**
- *
- * @param G
- * @param v
- * @return
- */
-Status DeleteVex(PtrToGraph G, PtrToVertex v);
+PtrToVertex FirstAdjVex(PtrToGraph G, int index);
 
 /**
  *
@@ -153,7 +141,23 @@ Status DeleteVex(PtrToGraph G, PtrToVertex v);
  * @param w
  * @return
  */
-Status InsertArc(PtrToGraph G, PtrToVertex v, PtrToVertex w ,int weight);
+PtrToVertex NextAdjVex(PtrToGraph G, int v_index, int w_index);
+
+/**
+ *
+ * @param G
+ * @param v
+ * @return
+ */
+Status InsertVex(PtrToGraph G, Vertex v);
+
+/**
+ *
+ * @param G
+ * @param v
+ * @return
+ */
+Status DeleteVex(PtrToGraph G, int v_index);
 
 /**
  *
@@ -162,7 +166,16 @@ Status InsertArc(PtrToGraph G, PtrToVertex v, PtrToVertex w ,int weight);
  * @param w
  * @return
  */
-Status DeleteArc(PtrToGraph G, PtrToVertex v, PtrToVertex w);
+Status InsertArc(PtrToGraph G, int src_index, int dst_index, int weight);
+
+/**
+ *
+ * @param G
+ * @param v
+ * @param w
+ * @return
+ */
+Status DeleteArc(PtrToGraph G, int src_index, int dst_index);
 
 /**
  *
