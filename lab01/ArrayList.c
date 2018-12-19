@@ -1,7 +1,12 @@
-/*
- * AUTHOR: Xiuxu Jin
- * GITHUB: jyxk
- * E_MAIL: jyxking007@gmail.com
+/**
+ * @file ArrayList.c
+ * @author Xiuxu Jin(jyxk) (jyxking007@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2018-11-18
+ * 
+ * @copyleft CopyLeft (c) 2018
+ * 
  */
 
 #include "ArrayList.h"

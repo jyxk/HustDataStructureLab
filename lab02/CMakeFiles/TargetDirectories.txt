@@ -1,4 +1,4 @@
 /home/jyxk/Code/HustDataStructureLab/lab02/CMakeFiles/edit_cache.dir
+/home/jyxk/Code/HustDataStructureLab/lab02/CMakeFiles/demo.dir
 /home/jyxk/Code/HustDataStructureLab/lab02/CMakeFiles/rebuild_cache.dir
 /home/jyxk/Code/HustDataStructureLab/lab02/CMakeFiles/lab02.dir
-/home/jyxk/Code/HustDataStructureLab/lab02/CMakeFiles/demo.dir
