@@ -33,7 +33,7 @@ typedef struct VertexNode* PtrToVertex;
 typedef struct Graph* PtrToGraph;
 
 typedef int Status;
-typedef int Bool;
+
 typedef int ElementType;
 
 typedef struct ArcNode {
@@ -61,6 +61,16 @@ typedef struct Graph {
 typedef struct GraphSet {
     PtrToGraph head;
 } GraphSet;
+
+typedef struct GraphStore {
+    int id;
+    int kind;
+    int vertex_num;
+    int arc_num;
+    int *v_indexs;
+    int *v_values;
+    int *a_matrix;
+} GraphStore;
 
 typedef struct Arc {
     int src_index;
@@ -190,6 +200,8 @@ Status DFSTraverse(PtrToGraph G);
  * @return
  */
 Status BFSTraverse(PtrToGraph G);
+
+int get_vertex_pos(PtrToGraph G, int index);
 
 
 #endif //LAB04_GRAPH_H

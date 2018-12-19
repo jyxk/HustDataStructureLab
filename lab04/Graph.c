@@ -42,7 +42,26 @@ PtrToArc search_arc(PtrToGraph G, int src, int dst) {
  * @return
  */
 Status CreateGraph(PtrToGraph G, int kind, int v_num, int a_num, int *v_index, int *v_value, int *a_matrix) {
-
+    int i, j;
+    int status = OK;
+    G->kind = kind;
+    Vertex vertex;
+    // insert vertexs
+    for(i = 0; i < v_num; i++) {
+        vertex.index = v_index[i], vertex.value = v_value[i];
+        status = InsertVex(G, vertex);
+    }
+    // insert arcs
+    for (i = 0; i < v_num; i++) {
+        for (j = 0; j < v_num; j++) {
+            if (*(a_matrix + i * v_num + j) != 0) {
+                InsertArc(G, v_index[i], v_index[j], a_matrix[i * v_num + j]);
+            }
+        }
+    }
+    G->vertex_num = v_num;
+    G->arc_num = a_num;
+    return status;
 }
 
 /**
@@ -162,7 +181,7 @@ PtrToVertex FirstAdjVex(PtrToGraph G, int index) {
     while (node != NULL) {
         if (node->index == index) {
             if (node->first_arc != NULL)
-                frist_adj_vertex = search_arc(G, node->first_arc->vertex);
+                frist_adj_vertex = search_graph(G, node->first_arc->vertex);
             break;
         }
         node = node->next;
@@ -254,7 +273,7 @@ Status DeleteVex(PtrToGraph G, int v_index) {
             continue;
         }
 
-        if (arc->vertex == index) {
+        if (arc->vertex == v_index) {
             node->first_arc = node->first_arc->next;
             free(arc);
             G->arc_num--;
@@ -263,7 +282,7 @@ Status DeleteVex(PtrToGraph G, int v_index) {
         }
 
         while (arc->next != NULL) {
-            if (arc->next->vertex == index) {
+            if (arc->next->vertex == v_index) {
                 PtrToArc tmp_arc = arc->next;
                 arc->next = arc->next->next;
                 free(tmp_arc);
@@ -277,7 +296,7 @@ Status DeleteVex(PtrToGraph G, int v_index) {
 
     node = G->first_vertex;
 
-    if (node->index == index) {
+    if (node->index == v_index) {
         PtrToArc arc = node->first_arc;
         while (arc != NULL) {
             PtrToArc tmp_arc = arc;
@@ -293,7 +312,7 @@ Status DeleteVex(PtrToGraph G, int v_index) {
 
     while (node->next != NULL) {
 
-        if (node->next->index == index) {
+        if (node->next->index == v_index) {
             PtrToVertex tmp_node = node->next;
             PtrToArc arc = tmp_node->first_arc;
             while (arc != NULL) {

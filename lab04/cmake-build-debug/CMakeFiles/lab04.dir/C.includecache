@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jyxk/Code/HustDataStructureLab/lab04/Graph.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/home/jyxk/Code/HustDataStructureLab/lab04/main.c
+main.h
+/home/jyxk/Code/HustDataStructureLab/lab04/main.h
+
+/home/jyxk/Code/HustDataStructureLab/lab04/main.h
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+queue.h
+/home/jyxk/Code/HustDataStructureLab/lab04/queue.h
+
+/home/jyxk/Code/HustDataStructureLab/lab04/queue.h
+Graph.h
+/home/jyxk/Code/HustDataStructureLab/lab04/Graph.h
+
