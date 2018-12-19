@@ -55,7 +55,7 @@ Status CreateGraph(PtrToGraph G, int kind, int v_num, int a_num, int *v_index, i
     for (i = 0; i < v_num; i++) {
         for (j = 0; j < v_num; j++) {
             if (*(a_matrix + i * v_num + j) != 0) {
-                InsertArc(G, v_index[i], v_index[j], a_matrix[i * v_num + j]);
+                InsertArc(G, v_index[i], v_index[j], *(a_matrix + i * v_num + j));
             }
         }
     }
@@ -115,7 +115,7 @@ int GetVex(PtrToGraph G, int index) {
     PtrToVertex node = G->first_vertex;
 
     while (node != NULL) {
-        if (node->index = index)
+        if (node->index == index)
             return node->value;
         node = node->next;
     }
@@ -310,7 +310,7 @@ Status DeleteVex(PtrToGraph G, int v_index) {
         return OK;
     }
 
-    while (node->next != NULL) {
+    while (node != NULL && node->next != NULL) {
 
         if (node->next->index == v_index) {
             PtrToVertex tmp_node = node->next;

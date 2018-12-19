@@ -163,11 +163,21 @@ int main(void) {
                     int *v_indexs = (int*)malloc(sizeof(int) * v_num);
                     int *v_values = (int*)malloc(sizeof(int) * v_num);
                     int *a_matrix = (int*)malloc(sizeof(int) * v_num * v_num);
+                    int legal_flag = 0;
                     printf("Please enter the node info (Format: index value):\n");
                     for (int i = 0; i < v_num; i++) { scanf("%d %d", &v_indexs[i], &v_values[i]); }
                     printf("please enter the adjacency matrix:\n");
                     for (int i = 0; i < v_num; i++) {
                         for (int j = 0; j < v_num; j++) { scanf("%d", a_matrix + i * v_num + j); }
+                    }
+
+                    for (int i = 0; i < v_num; i++) {
+                        if (*(a_matrix + i * v_num + i) != 0)
+                            legal_flag  = 1;
+                    }
+                    if (legal_flag) {
+                        printf("You cannot create a graph which has a self-loop!\n");
+                        break;
                     }
                     Graph new_G;
                     CreateGraph(&new_G, kind, v_num, a_num, v_indexs, v_values, a_matrix);
