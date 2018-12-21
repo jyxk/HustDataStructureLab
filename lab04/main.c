@@ -180,6 +180,7 @@ int main(void) {
                         break;
                     }
                     Graph new_G;
+                    new_G.next = NULL;
                     CreateGraph(&new_G, kind, v_num, a_num, v_indexs, v_values, a_matrix);
                     printf("Create graph %d succeed!\n", id);
                     new_G.id = id;
