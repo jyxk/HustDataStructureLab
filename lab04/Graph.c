@@ -44,6 +44,7 @@ PtrToArc search_arc(PtrToGraph G, int src, int dst) {
 Status CreateGraph(PtrToGraph G, int kind, int v_num, int a_num, int *v_index, int *v_value, int *a_matrix) {
     int i, j;
     int status = OK;
+    G->first_vertex = NULL;
     G->kind = kind;
     Vertex vertex;
     // insert vertexs
