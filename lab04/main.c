@@ -20,7 +20,7 @@ void PrintMenu(void) {
     printf("|      9.InsertVex             10.DeleteVex           |\n");
     printf("|     11.InsertArc             12.DeleteArc           |\n");
     printf("|     13.DFSTraverse           14.BFSTraverse         |\n");
-    printf("|     15.ListGraph                                    |\n");
+    printf("|     15.ListGraph             16.NewLocateVex        |\n");
     printf("|                                                     |\n");
     printf("| Enter the num of the function that you wanna see.   |\n");
     printf("| Enter 0 to exit this demo system.                   |\n");
@@ -649,6 +649,41 @@ int main(void) {
                 while (G != NULL) {
                     printf("ID: %d\n", G->id);
                     G = G->next;
+                }
+
+                printf("\n");
+                break;
+
+            case 16:
+                printf("/*\n");
+                printf(" * Function Name: new_locate_vex\n");
+                printf(" * Module: Data structures\n");
+                printf(" * Parameter: graph *G, int value\n");
+                printf(" * Return: int(the index)\n");
+                printf(" * Use: find a vertex in graph\n");
+                printf(" */\n");
+                printf("\n");
+                printf("                                   Format: id index\n");
+                printf("Then, enter the graph id and vertex index: ");
+
+                scanf("%d %d", &id, &index);
+                G = graph_set.head;
+                while (G != NULL) {
+                    if (G->id == id)
+                        break;
+                    G = G->next;
+                }
+                if (G == NULL) {
+                    printf("Error, this graph is not exists!\n");
+                }
+                else {
+                    int fxxkme = NewLocateVex(G, index);
+                    if (fxxkme != NOT_EXIST) {
+                        printf("The location is %d.\n", fxxkme);
+                    }
+                    else {
+                        printf("The vertex is not in the graph!\n");
+                    }
                 }
 
                 printf("\n");

@@ -105,6 +105,23 @@ int LocateVex(PtrToGraph G, int value) {
     return NOT_EXIST;
 }
 
+
+int NewLocateVex(PtrToGraph G, int index) {
+
+    PtrToVertex node = G->first_vertex;
+    int fxxkme = 0;
+    while (node != NULL) {
+        if (node->index != index)
+            fxxkme++;
+        if (node->index == index)
+            return fxxkme;
+        node = node->next;
+    }
+
+    return NOT_EXIST;
+
+}
+
 /**
  *
  * @param G

@@ -201,6 +201,9 @@ Status DFSTraverse(PtrToGraph G);
  */
 Status BFSTraverse(PtrToGraph G);
 
+
+int NewLocateVex(PtrToGraph G, int index);
+
 int get_vertex_pos(PtrToGraph G, int index);
 
 
